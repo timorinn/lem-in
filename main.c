@@ -6,14 +6,16 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/05 17:03:05 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/05 19:32:38 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lemin.h"
 #include "libft.h"
 
 int		main(int argc, char **argv)
 {
-	//ft_valid_input(argc, argv);
+	ft_valid_input(argc, argv);
+	//ft_putstr("yPa!\n");
 	return (1);
 }

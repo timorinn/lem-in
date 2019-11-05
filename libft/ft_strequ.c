@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/10 11:23:17 by bford             #+#    #+#             */
+/*   Updated: 2019/09/13 19:34:01 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int		ft_strequ(char const *s1, char const *s2)
 {
-	size_t	i;
-
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
+	if (!s1 || !s2 || ft_strcmp(s1, s2))
+		return (0);
+	return (1);
 }

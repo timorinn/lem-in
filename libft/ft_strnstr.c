@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/09 17:26:40 by bford             #+#    #+#             */
+/*   Updated: 2019/09/09 20:15:14 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (*s++)
+	if (!(*s2))
+		return ((char *)s1);
+	while (s1[i] && n)
+	{
+		j = 0;
+		while (s1[i + j] == s2[j] && s2[j] && n - j)
+			j++;
+		if (!(s2[j]))
+			return ((char *)(s1 + i));
+		n--;
 		i++;
-	return (i);
+	}
+	return (NULL);
 }

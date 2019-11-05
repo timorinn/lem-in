@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/10 10:58:29 by bford             #+#    #+#             */
+/*   Updated: 2019/09/13 19:26:15 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	size_t	i;
+	char	*fresh;
+	char	*copy;
 
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
+	if (!s || !f)
+		return (NULL);
+	if (!(fresh = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1))))
+		return (NULL);
+	copy = fresh;
+	while (*s)
+		*fresh++ = f(*s++);
+	*fresh = '\0';
+	return (copy);
 }

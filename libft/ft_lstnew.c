@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/12 15:20:51 by bford             #+#    #+#             */
+/*   Updated: 2019/09/13 14:28:18 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+t_list	*ft_lstnew(void const *content, size_t content_size)
 {
-	size_t	i;
+	t_list	*new;
 
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
+	if (!(new = (t_list *)malloc(sizeof(t_list))))
+		return (NULL);
+	if (!content)
+	{
+		new->content = NULL;
+		new->content_size = 0;
+	}
+	else
+	{
+		if (!(new->content = (void *)malloc(sizeof(void) * content_size)))
+			return (NULL);
+		ft_memcpy(new->content, content, content_size);
+		new->content_size = content_size;
+	}
+	new->next = NULL;
+	return (new);
 }

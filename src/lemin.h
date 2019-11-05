@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
+/*   Updated: 2019/11/05 19:26:14 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef LEMIN_H
+# define LEMIN_H
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+char	*ft_valid_input(int argc, char **argv);
 
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
-}
+#endif

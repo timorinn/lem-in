@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/10 12:36:35 by bford             #+#    #+#             */
+/*   Updated: 2019/09/13 19:37:00 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strtrim(char const *s)
 {
-	size_t	i;
+	int	start;
+	int	end;
 
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
+	if (!s)
+		return (NULL);
+	start = 0;
+	while (s[start] == ' ' || s[start] == '\n' || s[start] == '\t')
+		start++;
+	end = ft_strlen(s) - 1;
+	while (end && (s[end] == ' ' || s[end] == '\n' || s[end] == '\t'))
+		end--;
+	return (end - start + 1 < 0 ? ft_strsub(s, start, 0) :
+	ft_strsub(s, start, end - start + 1));
 }

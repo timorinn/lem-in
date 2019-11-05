@@ -5,48 +5,31 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/05 13:37:52 by bford             #+#    #+#              #
-#    Updated: 2019/11/05 20:21:32 by bford            ###   ########.fr        #
+#    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
+#    Updated: 2019/11/05 19:26:16 by bford            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		lem-in
+SRC =		ft_valid_input.c
 
-SRC =		main.c
+OBJ =		$(SRC:.c=.o)
 
-LIBFT = 	./libft
+HEAD =		lemin.h
 
-LEMIN =		./src
+NAME =		liblemin.a
 
-OBJ = $(SRC:.c=.o)
+all:		$(NAME)
 
-.PHONY: 	all clean fclean re
+$(NAME):	$(OBJ)
+			ar -rcs $(NAME) $(OBJ)
 
-all:		lib lemin $(NAME)
-
-%.o:		%.c
-			gcc -I $(LIBFT) -I $(LEMIN) -o $@ -c $<
-
-$(NAME):	$(OBJ) ./libft/libft.a ./src/liblemin.a 
-			gcc -o lem-in $(OBJ) -L ./libft -lft -L ./src -llemin
-
-lemin:
-			make -C ./src
-
-lib:
-			make -C ./libft
+%.o:		%.c $(HEAD)
+			gcc -I $(HEAD) -Wall -Wextra -Werror -c $< -o $@
 
 clean:
-			rm -f main.o
-			make clean -C ./libft
-			make clean -C ./src
+			rm -f $(OBJ)
 
 fclean:		clean
 			rm -f $(NAME)
-			make fclean -C ./libft
-			make fclean -C ./src
 
 re:			fclean all
-
-val:
-			valgrind 

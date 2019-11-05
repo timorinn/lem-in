@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 19:36:11 by bford             #+#    #+#             */
-/*   Updated: 2019/09/14 11:26:09 by bford            ###   ########.fr       */
+/*   Created: 2019/09/09 17:52:30 by bford             #+#    #+#             */
+/*   Updated: 2019/11/05 19:05:42 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int		ft_atoi(const char *s)
 {
-	size_t	i;
+	unsigned long long int	n;
+	int						sign;
 
-	i = 0;
-	while (*s++)
-		i++;
-	return (i);
+	sign = 1;
+	n = 0;
+	while ((*s >= 9 && *s <= 13) || *s == ' ')
+		s++;
+	if (*s == '+' || *s == '-')
+		sign *= (*s++ == '-' ? -1 : 1);
+	while (ft_isdigit(*s))
+		n = n * 10 + (*s++) - 48;
+	if (n > 9223372036854775807)
+		return (sign == 1 ? -1 : 0);
+	return (sign * n);
 }
