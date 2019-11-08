@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew_ant.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/07 14:08:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/06 15:31:21 by bford            ###   ########.fr       */
+/*   Created: 2019/11/06 20:41:26 by bford             #+#    #+#             */
+/*   Updated: 2019/11/06 20:45:58 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_tolower(int c)
+#include "lemin.h"
+
+t_ant		*ft_lstnew_ant(int i)
 {
-	return ((c >= 'A' && c <= 'Z') ? c + 32 : c);
+	t_ant		*ant;
+
+	if (!(ant = (t_ant *)malloc(sizeof(t_ant))))
+		return (NULL);
+	ant->num = i;
+	ant->room = -1;
+	ant->next = NULL;
+	return (ant);
 }

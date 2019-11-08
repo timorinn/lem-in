@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 16:20:54 by bford             #+#    #+#             */
-/*   Updated: 2019/11/05 20:08:51 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/08 15:33:52 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+#include <stdio.h> // DEL
+
+# define BUFF_SIZE 50
+
 typedef struct		s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_gnl
+{
+	int				nfd;
+	char			*content;
+	struct s_gnl	*next;
+}					t_gnl;
 
 int					ft_atoi(const char *s);
 size_t				ft_strlen(const char *s);
@@ -84,9 +95,15 @@ void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
+/*		GNL FUNCTIONS		*/
+
+int					get_next_line(int fd, char **line, int clean);
+
 /*		NEW FUNCTIONS		*/
 
 int					ft_nbr_len(int n);
-int					ft_is_int(char *s);
+int					ft_isint(const char *s, int sign, int first, int last);
+char				*ft_strjoin_free(char *s1, char const *s2);
+int					ft_delstr_arr(char **array);
 
 #endif

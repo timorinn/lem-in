@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_make_ants.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/04 10:47:22 by bford             #+#    #+#             */
-/*   Updated: 2019/11/07 17:39:45 by bford            ###   ########.fr       */
+/*   Created: 2019/11/08 15:04:25 by bford             #+#    #+#             */
+/*   Updated: 2019/11/08 15:04:35 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "lemin.h"
 
-char	*ft_strdup(char const *src)
+t_ant	*ft_make_ants(t_input *input)
 {
-	char	*s;
-	int		len;
+	t_ant	*ant;
+	t_ant	*copy;
+	int		num;
+	int		i;
 
-	if (!src)
+	i = 1;
+	if (!input || !(ft_isint(input->s, 1, 1, 2) && ft_atoi(input->s)) ||
+	!(ant = ft_lstnew_ant(0)))
 		return (NULL);
-	len = ft_strlen(src);
-	if ((s = (char *)malloc(sizeof(char) * (len + 1))) == 0)
-		return (NULL);
-	while (*src)
-		*s++ = *src++;
-	*s = '\0';
-	s -= len;
-	return (s);
+	copy = ant;
+	num = ft_atoi(input->s) - 1;
+	while (num--)
+	{
+		if (!(ant->next = ft_lstnew_ant(i++)))
+		{
+			ft_del_all(NULL, copy, NULL);
+			return (NULL);
+		}
+		ant = ant->next;
+	}
+	ant = copy;
+	return (ant);
 }

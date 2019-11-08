@@ -6,11 +6,18 @@
 #    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
-#    Updated: 2019/11/05 19:26:16 by bford            ###   ########.fr        #
+#    Updated: 2019/11/08 17:09:56 by bford            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC =		ft_valid_input.c
+SRC =		ft_analize_input.c		\
+			ft_lstdel_input.c		\
+			ft_lstnew_input.c		\
+			ft_lstnew_ant.c			\
+			ft_make_ants.c			\
+			ft_make_rooms.c			\
+			ft_lstnew_room.c		\
+			ft_del_all.c
 
 OBJ =		$(SRC:.c=.o)
 
