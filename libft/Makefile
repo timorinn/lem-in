@@ -6,7 +6,7 @@
 #    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 11:34:46 by bford             #+#    #+#              #
-#    Updated: 2019/11/08 15:34:15 by bford            ###   ########.fr        #
+#    Updated: 2019/11/10 21:30:36 by bford            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC	=		ft_strlen.c ft_strcpy.c ft_strncpy.c ft_strdup.c		\
 			ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c ft_lstadd.c	\
 			ft_lstiter.c ft_lstdel.c ft_lstmap.c ft_nbr_len.c		\
 			ft_isint.c ft_strjoin_free.c ft_delstr_arr.c			\
+			ft_array_size.c		\
 			get_next_line.c
 
 OBJ =		$(SRC:.c=.o)

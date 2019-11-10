@@ -6,13 +6,13 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:03:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/08 17:37:56 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/10 20:16:53 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-t_room	*ft_lstnew_room(char *name, int x, int y, int *startend)
+t_room	*ft_lstnew_room(char *name, int x, int y, t_params *par)
 {
 	t_room	*room;
 
@@ -24,22 +24,18 @@ t_room	*ft_lstnew_room(char *name, int x, int y, int *startend)
 		return (NULL);
 	}
 	room->next = NULL;
-	room->num = 0;
-	room->ant = 0;
+	room->num = (*par).num++;
 	room->x = x;
 	room->y = y;
-	if (*startend % 10 == 1)
+	if ((*par).startend % 10 == 1 && (room->start = 1))
 	{
-		room->start = 1;
-		*startend += 1;
+		(*par).startend += 1;
+		room->ant = (*par).ants;
 	}
 	else
 		room->start = 0;
-	if (*startend / 10 == 1)
-	{
-		room->end = 1;
-		*startend += 10;
-	}
+	if ((*par).startend / 10 == 1 && (room->end = 1))
+		(*par).startend += 10;
 	else
 		room->end = 0;
 	return (room);

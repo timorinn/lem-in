@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 16:20:54 by bford             #+#    #+#             */
-/*   Updated: 2019/11/08 15:33:52 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/10 21:30:19 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int					ft_nbr_len(int n);
 int					ft_isint(const char *s, int sign, int first, int last);
 char				*ft_strjoin_free(char *s1, char const *s2);
 int					ft_delstr_arr(char **array);
+int					ft_array_size(void **array);
 
 #endif

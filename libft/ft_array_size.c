@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_ant.c                                    :+:      :+:    :+:   */
+/*   ft_array_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/06 20:41:26 by bford             #+#    #+#             */
-/*   Updated: 2019/11/06 20:45:58 by bford            ###   ########.fr       */
+/*   Created: 2019/11/10 21:27:54 by bford             #+#    #+#             */
+/*   Updated: 2019/11/10 21:32:26 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
-
-t_ant		*ft_lstnew_ant(int i)
+int		ft_array_size(void **array)
 {
-	t_ant		*ant;
+	int		i;
 
-	if (!(ant = (t_ant *)malloc(sizeof(t_ant))))
-		return (NULL);
-	ant->num = i;
-	ant->room = -1;
-	ant->next = NULL;
-	return (ant);
+	i = 0;
+	if (!array || !(*array))
+		return (0);
+	while (array[i])
+		i++;
+	return (i);
 }

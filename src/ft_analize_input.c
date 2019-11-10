@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 15:35:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/07 18:51:51 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/10 20:04:37 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static t_input	*ft_make_list_input(int fd)
 
 	input = NULL;
 	while (get_next_line(fd, &line, 0))
-	{
 		if (!input)
 		{
 			if (!(input = ft_lstnew_input(line)) &&
@@ -35,7 +34,6 @@ static t_input	*ft_make_list_input(int fd)
 				return (NULL);
 			copy = copy->next;
 		}
-	}
 	get_next_line(0, NULL, 1);
 	close (fd);
 	return (input);
