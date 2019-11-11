@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_link.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/09 20:33:12 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 18:24:40 by bford            ###   ########.fr       */
+/*   Created: 2019/11/11 19:19:31 by bford             #+#    #+#             */
+/*   Updated: 2019/11/11 19:21:32 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "lemin.h"
 
-int		ft_strdel(char **as)
+t_link		*ft_lstnew_link(t_room *room)
 {
-	if (as)
-	{
-		free(*as);
-		*as = NULL;
-	}
-	return (0);
+	t_link		*link;
+
+	if (!room || !(link = (t_link *)malloc(sizeof(t_link))))
+		return (NULL);
+	link->room = room;
+	link->next = NULL;
+	return (link);
 }

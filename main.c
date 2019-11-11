@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 15:04:50 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 20:45:34 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,26 @@ void	ft_print_input(t_input *input)
 void	ft_print_rooms(t_room *room)
 {
 	t_room	*copy;
+	t_link	*link;
+	int		i;
 
 	copy = room;
 	ft_putstr("\n******** PRINT ROOMS ********\n");
+
+	printf("{ 6 }\n");
+
 	while (copy)
 	{
-		printf("Room_%8s | num = %2d | ants = %4d | start = %3d | end = %3d\n",
+		i = 0;
+	
+		printf("{ 7 }\n");
+
+		printf("Room_%8s | num = %2d | ants = %4d | start = %3d | end = %3d | ",
 		copy->name, copy->num, copy->ant, copy->start, copy->end);
+		link = copy->link;
+		while (link)
+			printf("link_%2d = %s | ", i++, link->room->name);
+		printf("\n");
 		copy = copy->next;
 	}
 }

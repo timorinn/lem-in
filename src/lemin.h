@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 16:14:30 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 19:23:52 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-#include <stdio.h>
+#include <stdio.h> // DE LE T E !
+
+struct		t_link;
+struct		s_input;
+struct		s_room;
+struct		s_params;
 
 typedef struct		s_input
 {
@@ -33,28 +38,28 @@ typedef struct		s_room
 	int				ant;
 	int				start;
 	int				end;
+	struct s_link	*link;
 	struct s_room	*next;
 }					t_room;
 
 typedef struct		s_link
 {
-	t_room			*room;
+	struct s_room	*room;
 	struct s_link	*next;
 }					t_link;
 
-
 typedef struct		s_params
 {
-	int		num;
-	int		startend;
-	int		ants;
-	int		links;
-	char	*name;
+	int				num;
+	int				startend;
+	int				ants;
+	int				links;
+	char			*name;
 }					t_params;
-
 
 t_input		*ft_analize_input(int argc, char **argv);
 t_input		*ft_lstnew_input(char *s);
+t_link		*ft_lstnew_link(t_room *room);
 int			ft_lstdel_input(t_input *list);
 int			ft_del_all(t_input *input, t_room *room);
 t_room		*ft_make_rooms(const t_input *input);

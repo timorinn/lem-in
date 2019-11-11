@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 14:03:16 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 15:56:42 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 21:05:13 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,18 @@ static void	ft_del_input(t_input *input)
 static void	ft_del_room(t_room *room)
 {
 	t_room	*copy;
+	t_link	*link;
+	t_link	*link2;
 
 	while (room)
 	{
+		link2 = room->link;
+		while (link2)
+		{
+			link = link2->next;
+			free(link2);
+			link2 = link;
+		}
 		ft_strdel(&(room->name));
 		copy = room->next;
 		free(room);
