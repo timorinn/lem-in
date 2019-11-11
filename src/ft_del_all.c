@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 14:03:16 by bford             #+#    #+#             */
-/*   Updated: 2019/11/10 18:26:46 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 15:56:42 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@ static void	ft_del_input(t_input *input)
 		input = copy;
 	}
 }
-
-/*
-static void	ft_del_ant(t_ant *ant)
-{
-	t_ant	*copy;
-
-	while (ant)
-	{
-		copy = ant->next;
-		free(ant);
-		ant = copy;
-	}
-}
-*/
 
 static void	ft_del_room(t_room *room)
 {

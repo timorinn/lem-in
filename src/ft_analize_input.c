@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 15:35:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/10 20:04:37 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 14:47:26 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ static t_input	*ft_make_list_input(int fd)
 	while (get_next_line(fd, &line, 0))
 		if (!input)
 		{
-			if (!(input = ft_lstnew_input(line)) &&
-			get_next_line(0, NULL, 1))
+			if ((!(input = ft_lstnew_input(line)) &&
+			get_next_line(0, NULL, 1) && close(fd) + 10) ||
+			!(copy = input))
 				return (NULL);
-			copy = input;
 		}
 		else
 		{
-			if (!(copy->next = ft_lstnew_input(line)) &&
-			get_next_line(0, NULL, 1))
+			if ((!(copy->next = ft_lstnew_input(line)) &&
+			get_next_line(0, NULL, 1) && close(fd) + 10) ||
+			!(copy = copy->next))
 				return (NULL);
-			copy = copy->next;
 		}
 	get_next_line(0, NULL, 1);
 	close (fd);

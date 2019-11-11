@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 18:53:52 by bford             #+#    #+#             */
-/*   Updated: 2019/11/10 23:30:49 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 15:04:40 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static t_room	*ft_make_room_list(char *s, t_room *room, t_params *par)
 	copy = room;
 	if (!(array = ft_strsplit(s, ' ')))
 		return (NULL);
-	ft_array_size((void **)array);
 	if (ft_array_size((void **)array) == 1 && ((*par).links = 1))
 		return(ft_delstr_arr(array) + room);
 	if (ft_array_size((void **)array) != 3 || array[0][0] == 'L'
@@ -91,9 +90,8 @@ t_room			*ft_make_rooms(const t_input *input)
 			}
 			/*
 			if (par.links)
-			else
 			{
-				
+				if 
 			}
 			*/
 		}

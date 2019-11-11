@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/10 20:12:47 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/11 16:14:30 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef struct		s_room
 	int				end;
 	struct s_room	*next;
 }					t_room;
+
+typedef struct		s_link
+{
+	t_room			*room;
+	struct s_link	*next;
+}					t_link;
+
 
 typedef struct		s_params
 {
