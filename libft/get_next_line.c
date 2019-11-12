@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 14:25:41 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 15:01:50 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 15:19:06 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ int		get_next_line(int fd, char **line, int clean)
 	if (fd < 0 || !line || read(fd, buff, 0) < 0 ||
 	find_lst(&lst, &l_copy, fd) == -1)
 		return (-1);
-	//if (clean)
-	//	return(ft_clean_all(l_copy));
 	if ((t = check(&(lst->content), line, &l_copy, &lst)))
 		return (t);
 	while ((t = read(fd, buff, BUFF_SIZE)))

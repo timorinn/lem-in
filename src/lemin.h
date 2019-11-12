@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 19:23:52 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 15:53:25 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ int			ft_lstdel_input(t_input *list);
 int			ft_del_all(t_input *input, t_room *room);
 t_room		*ft_make_rooms(const t_input *input);
 t_room		*ft_lstnew_room(char *name, int x, int y, t_params *par);
+int			ft_limit_path(t_room *room);
 
 #endif

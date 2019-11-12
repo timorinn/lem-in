@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 15:35:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 14:56:58 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 15:22:38 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,9 @@ static t_input	*ft_make_list_input(int fd)
 	t_input		*copy;
 	char		*line;
 
-	int i = 0;
-
 	input = NULL;
 	while (get_next_line(fd, &line, 0))
 	{
-		printf("{ %d }\n", ++i);
 		if (!input)
 		{
 			if ((!(input = ft_lstnew_input(line)) &&

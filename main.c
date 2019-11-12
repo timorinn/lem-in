@@ -6,14 +6,15 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 14:33:06 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 15:57:01 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	ft_print_input(t_input *input);
-void	ft_print_rooms(t_room *room);
+static void		ft_print_input(t_input *input);
+static void		ft_print_rooms(t_room *room);
+static void		ft_print_limit(int limit);
 
 int		main(int argc, char **argv)
 {
@@ -28,7 +29,9 @@ int		main(int argc, char **argv)
 	{
 		ft_print_input(input);
 		ft_print_rooms(room);
+		ft_print_limit(ft_limit_path(room));
 	}
+	//t_path = get_path(room, ft_limit_path(room))
 	return (ft_del_all(input, room));
 }
 
@@ -39,7 +42,7 @@ int		main(int argc, char **argv)
 /*		FUNCTIONS FOR CHECK		   */
 /***********************************/
 
-void	ft_print_input(t_input *input)
+static void		ft_print_input(t_input *input)
 {
 	t_input		*copy;
 
@@ -52,7 +55,7 @@ void	ft_print_input(t_input *input)
 	}
 }
 
-void	ft_print_rooms(t_room *room)
+static void		ft_print_rooms(t_room *room)
 {
 	t_room	*copy;
 	t_link	*link;
@@ -75,4 +78,10 @@ void	ft_print_rooms(t_room *room)
 		printf("\n");
 		copy = copy->next;
 	}
+}
+
+static void		ft_print_limit(int	limit)
+{
+	ft_putstr("\n******** PRINT LIMIT ********\n");
+	printf("Limit = %d\n", limit);
 }
