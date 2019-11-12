@@ -6,7 +6,7 @@
 #    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
-#    Updated: 2019/11/12 15:53:36 by bford            ###   ########.fr        #
+#    Updated: 2019/11/12 18:54:21 by bford            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC =		ft_analize_input.c		\
 			ft_lstnew_room.c		\
 			ft_lstnew_link.c		\
 			ft_limit_path.c			\
+			path.c					\
 			ft_del_all.c
 
 OBJ =		$(SRC:.c=.o)

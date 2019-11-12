@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 15:53:25 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 18:55:49 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ typedef struct		s_params
 	char			*name;
 }					t_params;
 
+typedef struct		s_path
+{
+	int				len;
+	int				num;
+	int				*way;
+	struct s_path	*next;
+}					t_path;
+
+
 t_input		*ft_analize_input(int argc, char **argv);
 t_input		*ft_lstnew_input(char *s);
 t_link		*ft_lstnew_link(t_room *room);
@@ -65,5 +74,7 @@ int			ft_del_all(t_input *input, t_room *room);
 t_room		*ft_make_rooms(const t_input *input);
 t_room		*ft_lstnew_room(char *name, int x, int y, t_params *par);
 int			ft_limit_path(t_room *room);
+
+t_path		*get_path(t_room *room, int limit);
 
 #endif

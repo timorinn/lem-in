@@ -154,6 +154,8 @@ t_path  *get_path(t_room *room, int limit)
 	int		start;
 
 	int j;
+	
+	limit+=0;
 
 	start = get_start(room);
 	end = get_end(room);
