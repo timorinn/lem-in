@@ -5,7 +5,6 @@ int		*concat_way(t_path **l, int num)
 	int		*a;
 	int		i;
 
-	write(1, "ok\n", 3);
 	a = (int*)malloc(sizeof(int) * (*l)->len + 1);
 	i = 0;
 	while (i < (*l)->len)
@@ -14,14 +13,6 @@ int		*concat_way(t_path **l, int num)
 		i++;
 	}
 	a[i] = num;
-	i = 0;
-	ft_putchar('\n');
-	while (i <= (*l)->len)
-	{
-		ft_putnbr(a[i]);
-		i++;
-	}
-	ft_putchar('\n');
 	return (a);
 }
 
@@ -54,7 +45,6 @@ void	push_tail(t_path **start, t_path **buf, int num)
 	}
 	else
 	{
-		write(1, "sldfjsfj\n", 10);
 		temp = *start;
 		while (temp->next)
 			temp = temp->next;
@@ -110,7 +100,7 @@ int lenfth(t_path *l)
 
 t_link	*get_link(t_room *room, t_path *l)
 {
-	while (room->num != l->way[l->len - 1])
+	while (l && room->num != l->way[l->len - 1])
 		room = room->next;
 	return (room->link);
 }
@@ -154,60 +144,37 @@ t_path  *get_path(t_room *room, int limit)
 	int		start;
 
 	int j;
-	
-	limit+=0;
+
+	limit += 0;
 
 	start = get_start(room);
 	end = get_end(room);
-//	printf("st = %d en = %d\n", start, end);
 	path = NULL;
 	answer = NULL;
 	push_tail(&path, NULL, start);
-//	printf("st wa = %d\n", path->way[0]);
 	while (path)
 	{
 		while (1)
 		{
 			buf = pop_path(&path);
-			j = 0;
-			while (j < buf->len)
-			{
-				ft_putnbr(buf->way[j]);
-				j++;
-			}
 			if (buf && ended_path(&buf, end))
 			{
-				j = 0;
-				while (j < buf->len)
-				{
-					ft_putnbr(buf->way[j]);
-					j++;
-				}
+				buf->next = NULL;
 				push_bottom_path(&answer, &buf);
 				continue;
 			}
 			break;
 		}
-		if (!path)
+		if (!buf)
 			break;
 		buf_child = get_link(room, buf);
 		while(buf_child)
 		{
 			if (no_dublicate(buf, buf_child))
-			{
 				push_tail(&path, &buf, buf_child->room->num);
-				j = 0;
-				while (j < path->len)
-				{
-					ft_putnbr(path->way[j]);
-					j++;
-				}
-			}
-			
 			buf_child = buf_child->next;
 		}
 	}
-	ft_putstr("ended\n");
     i = 1;
     path = answer;
     while (answer)
@@ -217,8 +184,10 @@ t_path  *get_path(t_room *room, int limit)
 		while (j < answer->len)
 		{
 			ft_putnbr(answer->way[j]);
+			ft_putstr(" ");
 			j++;
 		}
+		ft_putstr("\n");
         i++;
         answer = answer->next;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 15:57:01 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 20:31:53 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		main(int argc, char **argv)
 {
 	t_input		*input;
 	t_room		*room;
+	t_path		*path;
 
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
@@ -30,8 +31,8 @@ int		main(int argc, char **argv)
 		ft_print_input(input);
 		ft_print_rooms(room);
 		ft_print_limit(ft_limit_path(room));
+		path = get_path(room, ft_limit_path(room));
 	}
-	//t_path = get_path(room, ft_limit_path(room))
 	return (ft_del_all(input, room));
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_rooms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 18:53:52 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 14:03:00 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 20:27:15 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int		ft_make_links_3(t_room *room_1, t_room *room_2)
 		return ((room_1->link = ft_lstnew_link(room_2)) ? 1 : 0);
 	if (!ft_strcmp(link->room->name, room_1->name) ||
 	!ft_strcmp(link->room->name, room_2->name))
-		return (0);
+		return (1);
 	while (link->next)
 	{
 		if (!ft_strcmp(link->next->room->name, room_1->name) ||
