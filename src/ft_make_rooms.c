@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 18:53:52 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 20:57:09 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 14:03:00 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,21 @@ static t_params		ft_init_room_param(char *ant)
 
 static int		ft_make_links_3(t_room *room_1, t_room *room_2)
 {
-	t_link	*copy;
+	t_link	*link;
 
-	if (!room_1->link)
+	if (!(link = room_1->link))
 		return ((room_1->link = ft_lstnew_link(room_2)) ? 1 : 0);
-	copy = room_1->link;
-	while (copy->next)
-		copy = copy->next;
-	return ((copy->next = ft_lstnew_link(room_2)) ? 1 : 0);
+	if (!ft_strcmp(link->room->name, room_1->name) ||
+	!ft_strcmp(link->room->name, room_2->name))
+		return (0);
+	while (link->next)
+	{
+		if (!ft_strcmp(link->next->room->name, room_1->name) ||
+		!ft_strcmp(link->next->room->name, room_2->name))
+			return (0);
+		link = link->next;
+	}
+	return ((link->next = ft_lstnew_link(room_2)) ? 1 : 0);
 }
 
 static int		ft_make_links_2(t_room *room, const char *s1,
@@ -97,11 +104,10 @@ const char *s2)
 			room_2 = rcopy;
 		rcopy = rcopy->next;
 	}
-	if (!rcopy || !room_1 || !room_2)
+	if (!room_1 || !room_2)
 		return (0);
-	if (!(ft_make_links_3(room_1, room_2)))
-		return (0);
-	return (1);
+	return (ft_make_links_3(room_1, room_2) &&
+	ft_make_links_3(room_2, room_1) ? 1 : 0);
 }
 
 static int		ft_make_links(t_room *room, const char *s)
@@ -124,9 +130,8 @@ static int		ft_make_links(t_room *room, const char *s)
 		;
 	if (s[i] || !(name2 = ft_strndup(s, i)) || !ft_strcmp(name1, name2))
 		return (ft_strdel(&name1) + ft_strdel(&name2));
-	ft_make_links_2(room, name1, name2);
-	printf("Link_1 | Room_1 = %s | Room_2 = %s\n", name1, name2);
-	return (1 + ft_strdel(&name1) + ft_strdel(&name2));
+	return ((ft_make_links_2(room, name1, name2) ? 1 : 0) +
+	ft_strdel(&name1) + ft_strdel(&name2));
 }
 
 t_room			*ft_make_rooms(const t_input *input)
@@ -149,7 +154,7 @@ t_room			*ft_make_rooms(const t_input *input)
 			if (!par.links && !(room = ft_make_room_list(input->s, room, &par)))
 				return (NULL);
 			if (par.links && !ft_make_links(room, input->s))
-				return (!printf("{ 11 }\n") + NULL + ft_del_all(NULL, room));
+				return (NULL + ft_del_all(NULL, room));
 		}
 		input = input->next;
 	}

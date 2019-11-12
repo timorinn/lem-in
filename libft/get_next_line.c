@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 14:25:41 by bford             #+#    #+#             */
-/*   Updated: 2019/11/07 17:37:40 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/12 15:01:50 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,11 @@ t_gnl	*ft_lstnew_gnl(int fd)
 
 int		finish(t_gnl **lst, char **line, t_gnl **l_copy)
 {
-	if (!(*lst)->content)
-	{
-		*line = NULL;
+	if ((!(*lst)->content && !(*line = NULL)) || !ft_strlen((*lst)->content))
 		return (0);
-	}
-	*line = ft_strdup((*lst)->content);
-	//if (!(ft_strlen(*line)))
-	//	return (0);
+	if (!(*line = ft_strdup((*lst)->content)))
+		return (-1);
 	ft_strdel(&((*lst)->content));
-	//free((*lst)->content);
-	//(*lst)->content = NULL;
 	*lst = *l_copy;
 	return (1);
 }
