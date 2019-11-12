@@ -1,15 +1,14 @@
 6
 ##start
 start 1 0
-endend 5 0
-12 9 0
-13 13 0
-6 6 6
 ##end
-7 7 5
-7-6
-#comment
-12-13
-start-13
-#com
-12-6
+end 7 5
+1 1 1
+2 2 2
+3 3 3
+start-1
+start-2
+start-3
+end-1
+end-2
+end-3
