@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 14:49:25 by bford             #+#    #+#             */
-/*   Updated: 2019/11/13 19:23:19 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/13 22:27:04 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_path		*ft_copy_path(t_path *answer);
 static int	ft_max_len(t_path *answer);
 static int	ft_len_path(t_path *itog);
 static int	ft_different(t_path *path1, t_path *path2);
-int			ft_add_last_path(t_path *itog, t_path *last);
+int			ft_add_last_path(t_path **itog, t_path *last);
 t_path		*ft_copy_path(t_path *answer);
-t_path		*ft_rec_find(t_path *itog, t_path *answer, int ant, int limit);
+int			ft_rec_find(t_path **itog, t_path *answer, int ant, int limit);
 static void	ft_print_itog(t_path *itog);
 
 static int	ft_max_len(t_path *answer)
@@ -53,18 +53,20 @@ static int	ft_different(t_path *path1, t_path *path2)
 	int		*ar2;
 	int		copy;
 
-	len2 = path2->len;
+	len2 = path2->len - 1;
 	ar2 = path2->way;
+	copy = len2;
 	while (path1)
 	{
-		len1 = path1->len;
+		len1 = path1->len - 1;
 		ar1 = path1->way;
-		copy = len2;
 		while (--len1 > 0)
 		{
 			len2 = copy;
 			while (--len2 > 0)
 			{
+				//printf("ar1[%d] = %d | ar2[%d] = %d\n",
+				//len1, ar1[len1], len2, ar2[len2]);
 				if (ar1[len1] == ar2[len2])
 					return (1);
 			}
@@ -74,11 +76,16 @@ static int	ft_different(t_path *path1, t_path *path2)
 	return (0);
 }
 
-int			ft_add_last_path(t_path *itog, t_path *last)
+int			ft_add_last_path(t_path **itog, t_path *last)
 {
-	while (itog->next)
-		itog = itog->next;
-	return (!(itog->next = ft_copy_path(last)) ? 0 : 1);
+	t_path	*copy;
+
+	copy = *itog;
+	if (!(*itog))
+		return ((*itog = ft_copy_path(last)) ? 1 : 0);
+	while (copy->next)
+		copy = copy->next;
+	return ((copy->next = ft_copy_path(last)) ? 1 : 0);
 }
 
 t_path		*ft_copy_path(t_path *answer)
@@ -104,26 +111,76 @@ t_path		*ft_copy_path(t_path *answer)
 	return (itog);
 }
 
-t_path		*ft_rec_find(t_path *itog, t_path *answer, int ant, int limit)
+void		ft_del_last_path(t_path **itog)
 {
-	if (ft_len_path(itog) == limit)
-		return (itog);
-	while (answer)
+	t_path	*copy;
+	t_path	*prev;
+
+	prev = NULL;
+	copy = *itog;
+	if (!itog || !copy)
+		return ;
+	if (ft_len_path(*itog) == 1)
 	{
-		if (!itog && !(itog = ft_copy_path(answer)))
-			return (NULL);
-		if (!ft_different(itog, answer))
-		{
-			if (!ft_add_last_path(itog, answer))
-				return (NULL);
-			//if (ft_len_path(itog) == limit)
-			//	return (itog);
-			if (!(itog = ft_rec_find(itog, answer, ant, limit)))
-				return (NULL);
-		}
-		answer = answer->next;
+		free((*itog)->way);
+		(*itog)->way = NULL;
+		free(*itog);
+		*itog = NULL;
+		itog = NULL;
+		return ;
 	}
-	return (itog);
+	while (copy->next)
+	{
+		prev = copy;
+		copy = copy->next;
+	}
+/*
+	printf("DelCopy\n");
+	ft_print_itog(copy);
+	printf("DelItog\n");
+	ft_print_itog(itog);
+*/
+	free(copy->way);
+	copy->way = NULL;
+	free(copy);
+	copy = NULL;
+	if (prev)
+		prev->next = NULL;
+	/*
+	printf("Prev\n");
+	ft_print_itog(prev);
+	printf("PrevItog\n");
+	ft_print_itog(*itog);
+	*/
+
+}
+
+int		ft_rec_find(t_path **itog, t_path *answer, int ant, int limit)
+{
+	t_path	*copy;
+
+	copy = answer;
+	if (ft_len_path(*itog) == limit)
+		return (1);
+/*
+	printf("Copy\n");
+	ft_print_itog(copy);
+	printf("Itog\n");
+	ft_print_itog(*itog);
+*/
+	while (copy)
+	{
+		if (!ft_different(*itog, copy))
+		{
+			if (!ft_add_last_path(itog, copy))
+				return (0);
+			if (ft_rec_find(itog, answer, ant, limit))
+				return (1);
+			ft_del_last_path(itog);
+		}
+		copy = copy->next;
+	}
+	return (0);
 }
 
 t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
@@ -133,14 +190,12 @@ t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
 
 	itog = NULL;
 	max = ft_max_len(answer);
-	//printf("SORT | ant = %d | max = %d | limit = %d\n", ant, max, limit);
-	if ((itog = ft_rec_find(itog, answer, ant, limit)) && ft_len_path(itog) < limit)
-	{
-		//if (ft_len_output(itog, ant, 0) < ft_len_output(itog, ant, max))
-		//	return (NULL);
-		itog+=0;
-	}
+	if (!ft_rec_find(&itog, answer, ant, limit)) // && ft_len_path(itog) < limit)
+		return (NULL);
+
+	printf("Final itog\n");
 	ft_print_itog(itog);
+
 	return (itog);
 }
 
@@ -160,11 +215,11 @@ t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
 static void		ft_print_itog(t_path *itog)
 {
 	int j;
-	int i = 1;
 	t_path *copy;
 
 	copy = itog;
-	ft_putstr("\nI T O G ! \n");
+	if (!itog)
+		ft_putstr("No itog!\n");
 	while (copy)
 	{
    		j = 0;
@@ -175,7 +230,6 @@ static void		ft_print_itog(t_path *itog)
 			j++;
 		}
 		ft_putstr("\n");
-        i++;
         copy = copy->next;
     }
 }

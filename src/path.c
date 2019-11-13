@@ -166,6 +166,7 @@ t_path  *get_path(t_room *room, int limit)
 				buf->next = NULL;
 				push_bottom_path(&answer, &buf);
 				if ((itog = ft_sort_paths(answer, ant, limit)))
+					//itog = NULL;
 					return (itog);
 				continue;
 			}
