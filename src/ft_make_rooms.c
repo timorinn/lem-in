@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_rooms.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 18:53:52 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 20:27:15 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/13 14:06:51 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,17 @@ static t_room	*ft_make_room_list(char *s, t_room *room, t_params *par)
 	NULL + ft_delstr_arr(array) + ft_del_all(NULL, room));
 }
 
-static t_params		ft_init_room_param(char *ant)
+static t_params		ft_init_room_param(t_input **input)
 {
 	t_params	par;
 
-	par.ants = ft_atoi(ant);
+	//par.ants = ft_atoi(ant);
+	while (input && (*input)->s[0] == '#')
+		*input = (*input)->next;
+	if (!input || !ft_isint((*input)->s, 1, 1, 1))
+		par.ants = 0;
+	else
+		par.ants = ft_atoi((*input)->s);
 	par.num = 0;
 	par.startend = 0;
 	par.links = 0;
@@ -119,30 +125,32 @@ static int		ft_make_links(t_room *room, const char *s)
 	i = 0;
 	if (!room || !s)
 		return (0);
-	while (s[i] && s[i] != '-' && ++i)
-		;
+	while (s[i] && s[i] != '-')
+		i++;
 	if (!s[i] || s[i] != '-' || !s[i + 1] || ft_strchr(s + i + 1, '-') ||
 	!(name1 = ft_strndup(s, i)))
 		return (0);
 	s += i + 1;
 	i = 0;
-	while (s[i] && !ft_isspace(s[i]) && ++i)
-		;
+	while (s[i] && !ft_isspace(s[i]))
+		i++;
 	if (s[i] || !(name2 = ft_strndup(s, i)) || !ft_strcmp(name1, name2))
 		return (ft_strdel(&name1) + ft_strdel(&name2));
 	return ((ft_make_links_2(room, name1, name2) ? 1 : 0) +
 	ft_strdel(&name1) + ft_strdel(&name2));
 }
 
-t_room			*ft_make_rooms(const t_input *input)
+t_room			*ft_make_rooms(t_input *input)
 {
 	t_room		*room;
 	t_params	par;
 
 	room = NULL;
-	if (!input || !ft_isint(input->s, 1, 1, 1))
+	if (!input)
 		return (NULL);
-	par = ft_init_room_param(input->s);
+	par = ft_init_room_param(&input);
+	if (!par.ants)
+		return (NULL);
 	input = input->next;
 	while (input)
 	{

@@ -143,11 +143,15 @@ t_path  *get_path(t_room *room, int limit)
 	int		end;
 	int		start;
 
+	int		ant;
+	t_path	*itog;
+	itog = NULL;
 	int j;
 
 	limit += 0;
 
 	start = get_start(room);
+	ant = ft_get_ant(room);
 	end = get_end(room);
 	path = NULL;
 	answer = NULL;
@@ -161,6 +165,8 @@ t_path  *get_path(t_room *room, int limit)
 			{
 				buf->next = NULL;
 				push_bottom_path(&answer, &buf);
+				if ((itog = ft_sort_paths(answer, ant, limit)))
+					return (itog);
 				continue;
 			}
 			break;
@@ -175,12 +181,17 @@ t_path  *get_path(t_room *room, int limit)
 			buf_child = buf_child->next;
 		}
 	}
+	printf("\n****** OUTPUT_LEN ******\n"); 
+	printf("Len_output = %d\n\n", ft_len_output(answer, 10, 0));
     i = 1;
     path = answer;
     while (answer)
     {
         answer->num = i;
 		j = 0;
+		ft_putstr("Len = ");
+		ft_putnbr(answer->len);
+		ft_putstr(" | ");
 		while (j < answer->len)
 		{
 			ft_putnbr(answer->way[j]);

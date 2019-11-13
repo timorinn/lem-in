@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 15:35:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/12 15:22:38 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/13 14:04:31 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ t_input		*ft_analize_input(int argc, char **argv)
 	t_input		*input;
 	int			fd;
 
-	fd = open(argv[1], O_RDONLY);
-	if (argc != 2)
+	if (argc != 2 || (fd = open(argv[1], O_RDONLY)) == -1)
 		return (NULL);
 	input = ft_make_list_input(fd);
 	close(fd);
