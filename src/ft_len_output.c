@@ -6,13 +6,11 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:08:18 by bford             #+#    #+#             */
-/*   Updated: 2019/11/13 17:36:25 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 14:00:52 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-
-#include "stdio.h" //
 
 int		ft_len_output(t_path *answer, int ant, int dop)
 {
@@ -28,19 +26,18 @@ int		ft_len_output(t_path *answer, int ant, int dop)
 	copy = answer;
 	while (copy)
 	{
-		if (max < copy->len)
-			max = copy->len;
+		max = (max < copy->len ? copy->len : max);
 		copy = copy->next;
 	}
 	max = (max > dop ? max : dop);
-	ant -= max;
+	ant -= (ant - max + 1 > 0 ? max - 1 : ant);
 	copy = answer;
 	while (copy)
 	{
-		ant -= (max - copy->len ? max - copy->len : 1);
+		ant -= (max - copy->len ? max - copy->len - 1 : 0);
 		copy = copy->next;
 	}
 	if (dop > 0)
-		ant -= (max - dop ? max - dop : 1);
-	return (max + ant / paths + !!(ant % paths));
+		ant -= (max - dop ? max - dop : 0);
+	return (max - 1 + ant / paths + !!(ant % paths));
 }

@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/13 17:36:48 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 14:28:37 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,10 @@ t_path		*get_path(t_room *room, int limit);
 int			ft_get_ant(t_room *room);
 t_path		*ft_sort_paths(t_path *answer, int ant, int limit);
 int			ft_len_output(t_path *answer, int ant, int dop);
+int			ft_lstdel_path(t_path *path);
+
+/* DOP FUNC */
+
+void		ft_print_path(t_path *path, char *s);
 
 #endif
