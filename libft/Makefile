@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
+#    By: swedde <swedde@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 11:34:46 by bford             #+#    #+#              #
-#    Updated: 2019/11/11 18:03:39 by bford            ###   ########.fr        #
+#    Updated: 2019/11/13 23:25:18 by swedde           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,15 @@ SRC	=		ft_strlen.c ft_strcpy.c ft_strncpy.c ft_strdup.c		\
 
 OBJ =		$(SRC:.c=.o)
 
-HEAD =		libft.h
+HEAD =		./
 
 NAME =		libft.a
 
 all:		$(NAME)
 
-$(NAME):	$(OBJ)
+$(NAME):	$(SRC)
+			gcc -I./ *.c -c
 			ar -rcs $(NAME) $(OBJ)
-
-%.o:		%.c $(HEAD)
-			gcc -I $(HEAD) -Wall -Wextra -Werror -c $< -o $@
 
 clean:
 			rm -f $(OBJ)

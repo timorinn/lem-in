@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
+#    By: swedde <swedde@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:37:52 by bford             #+#    #+#              #
-#    Updated: 2019/11/07 17:30:52 by bford            ###   ########.fr        #
+#    Updated: 2019/11/13 23:30:04 by swedde           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ OBJ = $(SRC:.c=.o)
 all:		$(NAME)
 
 %.o:		%.c
-			gcc -Wall -Werror -Wextra -I $(LIBFT) -I $(LEMIN) -o $@ -c $<
+			gcc -I $(LIBFT) -I $(LEMIN) -o $@ -c $<
 
 $(NAME):	$(LIBFTA) $(LEMINA) $(OBJ) ./libft/libft.a ./src/liblemin.a
-			gcc -Wall -Werror -Wextra -o lem-in $(OBJ) -L ./libft -lft -L ./src -llemin
+			gcc -o lem-in main.c ./src/liblemin.a ./libft/libft.a -I./src
 
 FORCE:		;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/13 14:07:00 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 14:35:36 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,47 @@ static void		ft_print_input(t_input *input);
 static void		ft_print_rooms(t_room *room);
 static void		ft_print_limit(int limit);
 
+int		length_path(t_path *l)
+{
+	int i;
+
+	i = 0;
+	while (l)
+	{
+		l = l->next;
+		i++;
+	}
+	return (i);
+}
+
+int		delta_len(t_path *a)
+{
+	int		l1;
+	int		l2;
+	int		l;
+
+	l1 = a->len;
+	l = 0;
+	a = a->next;
+	while (a)
+	{
+		l2 = a->len;
+		l = l + l2 - l1;
+		a = a->next;
+	}
+	return (l);
+}
+
+void	print_steps(t_path *path, t_room *room)
+{
+	int		x1;
+	int		ants;
+
+	ants = room->ant;
+	x1 = (ants + delta_len(path)) / length_path(path);
+	printf("x1 = %d\n", x1);
+}
+
 int		main(int argc, char **argv)
 {
 	t_input		*input;
@@ -24,6 +65,7 @@ int		main(int argc, char **argv)
 
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
+	room->next->ant = 0;
 	if (!input || !room)
 		ft_putstr("ERROR\n");
 	else
@@ -33,6 +75,7 @@ int		main(int argc, char **argv)
 		ft_print_limit(ft_limit_path(room));
 		path = get_path(room, ft_limit_path(room));
 	}
+	print_steps(path, room);
 	return (ft_del_all(input, room));
 }
 
