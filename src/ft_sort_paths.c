@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 14:49:25 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 13:32:28 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 17:56:18 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,27 @@ int		ft_rec_find(t_path **itog, t_path *answer, int ant, int limit)
 		return (1);
 	while (copy)
 	{
-		if (!ft_different(*itog, copy))
+		/*
+		if (*itog)
+			printf("WHILE : LO_1 = %d | LO_2 = %d\n",
+			ft_len_output(*itog, ant, 0),
+			ft_len_output(*itog, ant, copy->len));
+		*/
+
+		/*
+		if (*itog)
+			ft_print_path(*itog, "While itog\n");
+		*/
+
+
+		if (
+			
+		!(*itog) ||
+		(ft_len_output(*itog, ant, 0) >
+		ft_len_output(*itog, ant, copy->len) &&
+			
+		!ft_different(*itog, copy) )
+		)
 		{
 			if (!ft_add_last_path(itog, copy))
 				return (0);
@@ -168,12 +188,18 @@ t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
 
 	itog = NULL;
 	max = ft_max_len(answer);
+	printf("START RECURSION!\n");
 	if (!ft_rec_find(&itog, answer, ant, limit) ||
 	(ft_len_path(itog) < limit &&
-	ft_len_output(itog, ant, 0) < ft_len_output(itog, ant, max)))
+	ft_len_output(itog, ant, 0) > ft_len_output(itog, ant, max)))
+	{
+		ft_lstdel_path(itog);
 		return (NULL);
+	}
 
 	ft_print_path(itog, "___final_itog\n");
+	//printf("LO_1 = %d | LO_2 = %d\n",
+	//ft_len_output(itog, 2, 0), ft_len_output(itog, 2, 0));
 
 	printf("\n******** OUTPUT_LEN *********\n"); 
 	printf("Len_output = %d\n\n", ft_len_output(itog, ant, 0));

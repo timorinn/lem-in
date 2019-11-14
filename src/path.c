@@ -156,6 +156,7 @@ t_path  *get_path(t_room *room, int limit)
 	end = get_end(room);
 	path = NULL;
 	answer = NULL;
+
 	push_tail(&path, NULL, start);
 	while (path)
 	{
@@ -169,10 +170,10 @@ t_path  *get_path(t_room *room, int limit)
 
 				if ((itog = ft_sort_paths(answer, ant, limit)))
 				{
-					//ft_print_path(itog, "___Itog\n");
-					//return (itog);
-					ft_lstdel_path(itog);
-					itog = NULL;
+					ft_print_path(itog, "___Itog\n");
+					return (itog);
+					//ft_lstdel_path(itog);
+					//itog = NULL;
 				}
 				continue;
 			}
