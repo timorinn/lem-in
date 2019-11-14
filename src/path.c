@@ -181,6 +181,8 @@ t_path  *get_path(t_room *room, int limit)
 				push_tail(&path, &buf, buf_child->room->num);
 			buf_child = buf_child->next;
 		}
+		free(buf->way);
+		free(buf);
 	}
 	printf("\n****** OUTPUT_LEN ******\n"); 
 	printf("Len_output = %d\n\n", ft_len_output(answer, 10, 0));

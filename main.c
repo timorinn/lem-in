@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 15:53:36 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/14 21:29:48 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,19 @@ void	step_do_one(t_path *buf, t_room *room, int num)
 	}
 }
 
+void	set_step_ants(t_path *path, int x1, int l, int ants)
+{
+	if (path == NULL)
+		return ;
+	if (path->next == NULL)
+	{
+		path->step_ants = ants;
+		return ;
+	}
+	path->step_ants = x1 - (path->len - 1 - l);
+	set_step_ants(path->next, x1, l, ants - path->step_ants);
+}
+
 void	steps_print(t_path *path, t_room *room)
 {
 	int		x1;
@@ -85,13 +98,23 @@ void	steps_print(t_path *path, t_room *room)
 	t_path	*buf;
 
 	ants = room->ant;
-	x1 = (ants + delta_len(path)) / length_path(path);
-//	ft_putnbr(x1);
-//	ft_putchar('\n');
+	x1 = (ants + delta_len(path) + length_path(path) - 1) / length_path(path);
 	total = path->len - 1 + x1 - 1;
-	path->step_ants = 9;
-	path->next->step_ants = 7;
-	path->next->next->step_ants = 5;
+	path->step_ants = x1;
+	set_step_ants(path->next, x1, path->len - 1, ants - x1);
+
+////
+	int i = 1;
+	buf = path;
+	while (buf)
+	{
+		printf("a%d = %d ", i, buf->step_ants);
+		buf = buf->next;
+		i++;
+	}
+	printf("total = %d\n", total);
+////
+
 	while (total)
 	{
 		buf = path;
@@ -104,6 +127,13 @@ void	steps_print(t_path *path, t_room *room)
 		ft_putstr("\n");
 		total--;
 	}
+
+////
+	t_room *buf1;
+	buf1 = room;
+	while (buf1->end == 0)
+		buf1 = buf1->next;
+	printf("END ANTS = %d\n", buf1->ant);
 }
 
 int		main(int argc, char **argv)
