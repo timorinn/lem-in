@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 15:04:41 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 19:51:17 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int		main(int argc, char **argv)
 		ft_print_input(input);
 		ft_print_rooms(room);
 		ft_print_limit(ft_limit_path(room));
-		//path = get_path(room, ft_limit_path(room));
+		ft_print_path(path, "\nuTor\n");
 	}
-	return (ft_del_all(input, room) + ft_lstdel_path(path));
+	return (ft_del_all(input, room) + ft_lstdel_path(path) );
 }
 
 

@@ -194,11 +194,10 @@ t_path  *get_path(t_room *room, int limit)
 	//printf("Len_output = %d\n\n", ft_len_output(answer, 10, 0));
 
 	/* ANSWER NUM ? */
-	if (buf)
-		printf("\nBUF ECTb!\n");
-	if (path)
-		printf("\nBUF ECTb!\n");
-	if (answer)
-		ft_print_path(answer, "_____Answer\n");
-	return (path);
+
+	//if (answer)
+	//	ft_print_path(answer, "_____Answer\n");
+
+	//return (path);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 14:49:25 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 17:56:18 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/14 19:30:30 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,23 +153,24 @@ int		ft_rec_find(t_path **itog, t_path *answer, int ant, int limit)
 			printf("WHILE : LO_1 = %d | LO_2 = %d\n",
 			ft_len_output(*itog, ant, 0),
 			ft_len_output(*itog, ant, copy->len));
-		*/
-
-		/*
 		if (*itog)
 			ft_print_path(*itog, "While itog\n");
+		ft_print_path(copy, "while copy\n");
+	
+		printf("Different = %d\n", ft_different(*itog, copy));
 		*/
-
-
 		if (
-			
 		!(*itog) ||
-		(ft_len_output(*itog, ant, 0) >
+		(ft_len_output(*itog, ant, 0) >=
 		ft_len_output(*itog, ant, copy->len) &&
-			
 		!ft_different(*itog, copy) )
 		)
 		{
+
+			/*
+			if (*itog)
+				ft_print_path(*itog, "While 2 itog\n");
+			*/
 			if (!ft_add_last_path(itog, copy))
 				return (0);
 			if (ft_rec_find(itog, answer, ant, limit))
@@ -188,7 +189,7 @@ t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
 
 	itog = NULL;
 	max = ft_max_len(answer);
-	printf("START RECURSION!\n");
+	printf("\nSTART RECURSION!\n\n");
 	if (!ft_rec_find(&itog, answer, ant, limit) ||
 	(ft_len_path(itog) < limit &&
 	ft_len_output(itog, ant, 0) > ft_len_output(itog, ant, max)))
