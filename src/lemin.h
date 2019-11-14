@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 14:40:12 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/15 00:14:54 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_room
 	int				ant;
 	int				start;
 	int				end;
+	int				ant_num;
 	struct s_link	*link;
 	struct s_room	*next;
 }					t_room;
