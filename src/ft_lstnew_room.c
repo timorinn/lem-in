@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:03:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/11 16:20:53 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/15 12:55:53 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_room	*ft_lstnew_room(char *name, int x, int y, t_params *par)
 	room->num = (*par).num++;
 	room->x = x;
 	room->y = y;
+	room->num_links = 0;
 	room->link = NULL;
 	if ((*par).startend % 10 == 1 && (room->start = 1))
 	{

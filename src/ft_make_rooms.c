@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 18:53:52 by bford             #+#    #+#             */
-/*   Updated: 2019/11/13 14:06:51 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/15 13:03:53 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int		ft_make_links_3(t_room *room_1, t_room *room_2)
 {
 	t_link	*link;
 
-	if (!(link = room_1->link))
+	if (!(link = room_1->link) && ++(room_1->num_links))
 		return ((room_1->link = ft_lstnew_link(room_2)) ? 1 : 0);
 	if (!ft_strcmp(link->room->name, room_1->name) ||
 	!ft_strcmp(link->room->name, room_2->name))
@@ -89,6 +89,7 @@ static int		ft_make_links_3(t_room *room_1, t_room *room_2)
 			return (0);
 		link = link->next;
 	}
+	room_1->num_links++;
 	return ((link->next = ft_lstnew_link(room_2)) ? 1 : 0);
 }
 

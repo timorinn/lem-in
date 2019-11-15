@@ -171,6 +171,8 @@ t_path  *get_path(t_room *room, int limit)
 				if ((itog = ft_sort_paths(answer, ant, limit)))
 				{
 					ft_print_path(itog, "___Itog\n");
+					//ft_lstdel_path(path);
+					//ft_lstdel_path(buf);
 					return (itog);
 					//ft_lstdel_path(itog);
 					//itog = NULL;
@@ -188,6 +190,17 @@ t_path  *get_path(t_room *room, int limit)
 				push_tail(&path, &buf, buf_child->room->num);
 			buf_child = buf_child->next;
 		}
+		/*
+		if (buf)
+		{
+			free(buf->way);
+			free(buf);
+		}
+		*/
+		/*
+		if (path)
+			ft_lstdel_path(path);
+		*/
 	}
 
 	//printf("\n******** OUTPUT_LEN *********\n"); 
@@ -199,5 +212,7 @@ t_path  *get_path(t_room *room, int limit)
 	//	ft_print_path(answer, "_____Answer\n");
 
 	//return (path);
+	//if (path)
+	//	ft_lstdel_path(path);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 19:51:17 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/15 14:38:01 by bford            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ int		main(int argc, char **argv)
 
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
+	//ft_del_dead_end(&room);
 	path = get_path(room, ft_limit_path(room));
-	if (!input || !room || !path)
+	if (!input || !room  || !path )
 		ft_putstr("ERROR\n");
 	else
 	{
 		ft_print_input(input);
 		ft_print_rooms(room);
 		ft_print_limit(ft_limit_path(room));
-		ft_print_path(path, "\nuTor\n");
+		//ft_print_path(path, "\nuTor\n");
+		steps_print(path, room);
 	}
-	return (ft_del_all(input, room) + ft_lstdel_path(path) );
+	return (ft_del_all(input, room) + ft_lstdel_path(path));
 }
 
 
@@ -57,6 +59,7 @@ static void		ft_print_input(t_input *input)
 	}
 }
 
+
 static void		ft_print_rooms(t_room *room)
 {
 	t_room	*copy;
@@ -69,12 +72,12 @@ static void		ft_print_rooms(t_room *room)
 	{
 		i = 0;
 
-		printf("Room_%8s | num = %2d | ants = %4d | start = %3d | end = %3d | ",
-		copy->name, copy->num, copy->ant, copy->start, copy->end);
+		printf("Room_%8s | num = %2d | ants = %4d | start = %3d | end = %3d | num_links = %2d | ",
+		copy->name, copy->num, copy->ant, copy->start, copy->end, copy->num_links);
 		link = copy->link;
 		while (link)
 		{
-			printf("link_%2d = %s | ", i++, link->room->name);
+			printf("link_%2d = %2s | ", i++, link->room->name);
 			link = link->next;
 		}
 		printf("\n");
