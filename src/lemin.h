@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/15 14:29:45 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/18 19:23:31 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_input
 
 typedef struct		s_room
 {
+	int				visit;
 	char			*name;
 	int				x;
 	int				y;
@@ -80,7 +81,7 @@ t_room		*ft_lstnew_room(char *name, int x, int y, t_params *par);
 void		ft_del_dead_end(t_room **room);
 
 int			ft_limit_path(t_room *room);
-t_path		*get_path(t_room *room, int limit);
+int			get_path(t_room *room, t_path **answer);
 int			ft_get_ant(t_room *room);
 t_path		*ft_sort_paths(t_path *answer, int ant, int limit);
 int			ft_len_output(t_path *answer, int ant, int dop);

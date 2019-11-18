@@ -108,6 +108,9 @@ t_link	*get_link(t_room *room, t_path *l)
 {
 	while (l && room->num != l->way[l->len - 1])
 		room = room->next;
+	if (room->visit)
+		return (NULL);
+	room->visit = 1;
 	return (room->link);
 }
 
@@ -139,80 +142,92 @@ int		get_start(t_room *room)
 	return (room->num);
 }
 
-t_path  *get_path(t_room *room, int limit)
+int	ft_len_path(t_path *itog)
+{
+	int		len;
+
+	len = 0;
+	while (itog && ++len)
+		itog = itog->next;
+	return (len);
+}
+
+static t_room	*get_room(t_room *room, int num)
+{
+	while (room->num != num)
+		room = room->next;
+	return (room);
+}
+
+void	ft_null_room(t_room *room, t_path *answer)
+{
+	int i;
+	t_room	*copy;
+
+	copy = room;
+	while (room)
+	{
+		room->visit = 0;
+		room = room->next;
+	}
+	while (answer)
+	{
+		i = 1;
+		while (i < answer->len - 1)
+		{
+			get_room(copy, answer->way[i])->visit = 1;
+			i++;
+		}
+		answer = answer->next;
+	}
+}
+
+int		get_path(t_room *room, t_path **answer)
 {
 	t_path	*path;
 	t_path  *buf;
 	t_link  *buf_child;
-	t_path	*answer;
 	int		end;
 	int		start;
 	int		ant;
-	t_path	*itog;
 
-	itog = NULL;
 	start = get_start(room);
 	ant = ft_get_ant(room);
 	end = get_end(room);
 	path = NULL;
-	answer = NULL;
 
 	push_tail(&path, NULL, start);
 	while (path)
 	{
-		while (1)
-		{
+/*		while (1)
+		{*/
 			buf = pop_path(&path);
 			if (buf && ended_path(&buf, end))
 			{
 				buf->next = NULL;
-				push_bottom_path(&answer, &buf);
-
-				if ((itog = ft_sort_paths(answer, ant, limit)))
-				{
-					ft_print_path(itog, "___Itog\n");
-					//ft_lstdel_path(path);
-					//ft_lstdel_path(buf);
-					return (itog);
-					//ft_lstdel_path(itog);
-					//itog = NULL;
-				}
-				continue;
+				push_bottom_path(answer, &buf);
+				ft_null_room(room, *answer);
+				return (1);
+			//	continue;
 			}
-			break;
-		}
+/*			break;
+		}*/
 		if (!buf)
 			break;
 		buf_child = get_link(room, buf);
 		while (buf_child)
 		{
 			if (no_dublicate(buf, buf_child))
+			{
 				push_tail(&path, &buf, buf_child->room->num);
+			}
 			buf_child = buf_child->next;
 		}
-		/*
 		if (buf)
 		{
 			free(buf->way);
 			free(buf);
 		}
-		*/
-		/*
-		if (path)
-			ft_lstdel_path(path);
-		*/
 	}
-
-	//printf("\n******** OUTPUT_LEN *********\n"); 
-	//printf("Len_output = %d\n\n", ft_len_output(answer, 10, 0));
-
-	/* ANSWER NUM ? */
-
-	//if (answer)
-	//	ft_print_path(answer, "_____Answer\n");
-
-	//return (path);
-	//if (path)
-	//	ft_lstdel_path(path);
-	return (NULL);
+	return (0);
 }

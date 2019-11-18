@@ -3,36 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/15 14:38:01 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/18 19:32:51 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static void		ft_print_input(t_input *input);
-static void		ft_print_rooms(t_room *room);
-static void		ft_print_limit(int limit);
+void		ft_print_input(t_input *input);
+void		ft_print_rooms(t_room *room);
+
+static int	ft_len_path(t_path *itog)
+{
+	int		len;
+
+	len = 0;
+	while (itog && ++len)
+		itog = itog->next;
+	return (len);
+}
 
 int		main(int argc, char **argv)
 {
 	t_input		*input;
 	t_room		*room;
 	t_path		*path;
+	int			limit;
 
+	path = NULL;
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
-	//ft_del_dead_end(&room);
-	path = get_path(room, ft_limit_path(room));
+	limit = ft_limit_path(room);
+	while (get_path(room, &path) && limit > ft_len_path(path))
+		;
+	ft_print_path(path, "RESULT\n");
 	if (!input || !room  || !path )
 		ft_putstr("ERROR\n");
 	else
 	{
-		ft_print_input(input);
-		ft_print_rooms(room);
-		ft_print_limit(ft_limit_path(room));
+		//ft_print_input(input);
+		//ft_print_rooms(room);
 		//ft_print_path(path, "\nuTor\n");
 		steps_print(path, room);
 	}
@@ -46,7 +58,7 @@ int		main(int argc, char **argv)
 /*		FUNCTIONS FOR CHECK		   */
 /***********************************/
 
-static void		ft_print_input(t_input *input)
+void		ft_print_input(t_input *input)
 {
 	t_input		*copy;
 
@@ -59,8 +71,7 @@ static void		ft_print_input(t_input *input)
 	}
 }
 
-
-static void		ft_print_rooms(t_room *room)
+void		ft_print_rooms(t_room *room)
 {
 	t_room	*copy;
 	t_link	*link;
@@ -83,10 +94,4 @@ static void		ft_print_rooms(t_room *room)
 		printf("\n");
 		copy = copy->next;
 	}
-}
-
-static void		ft_print_limit(int	limit)
-{
-	ft_putstr("\n******** PRINT LIMIT ********\n");
-	printf("Limit = %d\n", limit);
 }
