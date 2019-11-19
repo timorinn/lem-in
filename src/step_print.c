@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   step_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:25:07 by bford             #+#    #+#             */
-/*   Updated: 2019/11/15 14:28:31 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/19 19:39:17 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void steps_print(t_path *path, t_room *room)
 	path->step_ants = x1;
 	set_step_ants(path->next, x1, path->len - 1, ants - x1);
 
-////
+///
 	int i = 1;
 	buf = path;
 	while (buf)
@@ -139,7 +139,7 @@ void steps_print(t_path *path, t_room *room)
 		i++;
 	}
 	printf("total = %d\n", total);
-////
+///
 
 	while (total)
 	{

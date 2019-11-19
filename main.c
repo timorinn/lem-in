@@ -6,7 +6,7 @@
 /*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/18 19:32:51 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/19 20:05:14 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		ft_print_input(t_input *input);
 void		ft_print_rooms(t_room *room);
-
+/*
 static int	ft_len_path(t_path *itog)
 {
 	int		len;
@@ -24,7 +24,7 @@ static int	ft_len_path(t_path *itog)
 		itog = itog->next;
 	return (len);
 }
-
+*/
 int		main(int argc, char **argv)
 {
 	t_input		*input;
@@ -32,13 +32,17 @@ int		main(int argc, char **argv)
 	t_path		*path;
 	int			limit;
 
+//	t_path		*itog;
+
 	path = NULL;
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
 	limit = ft_limit_path(room);
-	while (get_path(room, &path) && limit > ft_len_path(path))
-		;
+	create_path(room, &path);
 	ft_print_path(path, "RESULT\n");
+/*
+	itog = ft_sort_paths(path, room->ant, limit);
+	ft_print_path(itog, "ITOG\n");*/
 	if (!input || !room  || !path )
 		ft_putstr("ERROR\n");
 	else

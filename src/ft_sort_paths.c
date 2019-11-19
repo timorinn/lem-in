@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sort_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 14:49:25 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 19:30:30 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/19 19:23:53 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
 t_path		*ft_copy_path(t_path *answer);
-static int	ft_max_len(t_path *answer);
 static int	ft_len_path(t_path *itog);
 static int	ft_different(t_path *path1, t_path *path2);
 int			ft_add_last_path(t_path **itog, t_path *last);
 t_path		*ft_copy_path(t_path *answer);
-int			ft_rec_find(t_path **itog, t_path *answer, int ant, int limit);
 
-static int	ft_max_len(t_path *answer)
+int	ft_max_len(t_path *answer)
 {
 	int		max;
 
@@ -138,72 +136,61 @@ void		ft_del_last_path(t_path **itog)
 	if (prev)
 		prev->next = NULL;
 }
-
-int		ft_rec_find(t_path **itog, t_path *answer, int ant, int limit)
+/*
+if (!(*itog) ||
+		(ft_len_output(*itog, ant, 0) >=
+		ft_len_output(*itog, ant, copy->len) &&
+		!ft_different(*itog, copy)))
+*/
+int		ft_rec_find(t_path **itog, t_path *answer, int ant, int limit, int min)
 {
 	t_path	*copy;
 
-	copy = answer;
 	if (ft_len_path(*itog) == limit)
+	{
+		printf("САКСЕС<ёт\n");
 		return (1);
+	}
+	copy = answer;
 	while (copy)
 	{
-		/*
 		if (*itog)
-			printf("WHILE : LO_1 = %d | LO_2 = %d\n",
-			ft_len_output(*itog, ant, 0),
-			ft_len_output(*itog, ant, copy->len));
-		if (*itog)
-			ft_print_path(*itog, "While itog\n");
-		ft_print_path(copy, "while copy\n");
-	
-		printf("Different = %d\n", ft_different(*itog, copy));
-		*/
-		if (
-		!(*itog) ||
+		{
+			ft_print_path(*itog, "ITOG !\n");
+			printf("Lo 1 = %d | Lo 2 = %d | Dif = %d\n", ft_len_output(*itog, ant, 0),
+				ft_len_output(*itog, ant, copy->len), ft_different(*itog, copy));
+		}
+		ft_print_path(copy, "COPY!\n");
+		if (!(*itog) ||
 		(ft_len_output(*itog, ant, 0) >=
 		ft_len_output(*itog, ant, copy->len) &&
-		!ft_different(*itog, copy) )
-		)
+		!ft_different(*itog, copy)))
 		{
-
-			/*
-			if (*itog)
-				ft_print_path(*itog, "While 2 itog\n");
-			*/
 			if (!ft_add_last_path(itog, copy))
 				return (0);
-			if (ft_rec_find(itog, answer, ant, limit))
+			//if (ft_len_output(*itog, ant, 0) > min)
+			//	return (0);
+			//min = ft_len_output(*itog, ant, 0);
+			if (ft_rec_find(itog, answer, ant, limit, min))
 				return (1);
 			ft_del_last_path(itog);
 		}
 		copy = copy->next;
 	}
+	printf("{ end }\n");
 	return (0);
 }
 
 t_path		*ft_sort_paths(t_path *answer, int ant, int limit)
 {
-	int		max;
+	int		min;
 	t_path	*itog;
 
+	min = 2000000000;
 	itog = NULL;
-	max = ft_max_len(answer);
 	printf("\nSTART RECURSION!\n\n");
-	if (!ft_rec_find(&itog, answer, ant, limit) ||
-	(ft_len_path(itog) < limit &&
-	ft_len_output(itog, ant, 0) > ft_len_output(itog, ant, max)))
-	{
-		ft_lstdel_path(itog);
-		return (NULL);
-	}
 
-	ft_print_path(itog, "___final_itog\n");
-	//printf("LO_1 = %d | LO_2 = %d\n",
-	//ft_len_output(itog, 2, 0), ft_len_output(itog, 2, 0));
-
-	printf("\n******** OUTPUT_LEN *********\n"); 
-	printf("Len_output = %d\n\n", ft_len_output(itog, ant, 0));
-
+	ft_rec_find(&itog, answer, ant, limit, min);
+	printf("\nEND RECURSION!\n\n");
 	return (itog);
 }

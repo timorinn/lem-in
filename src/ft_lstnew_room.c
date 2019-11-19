@@ -6,7 +6,7 @@
 /*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:03:06 by bford             #+#    #+#             */
-/*   Updated: 2019/11/18 17:37:18 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/19 14:36:12 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_room	*ft_lstnew_room(char *name, int x, int y, t_params *par)
 	room->num_links = 0;
 	room->visit = 0;
 	room->link = NULL;
+	room->bad_pos = 0;
 	if ((*par).startend % 10 == 1 && (room->start = 1))
 	{
 		(*par).startend += 1;

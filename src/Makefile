@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bford <bford@student.42.fr>                +#+  +:+       +#+         #
+#    By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
-#    Updated: 2019/11/15 14:30:08 by bford            ###   ########.fr        #
+#    Updated: 2019/11/19 20:50:30 by nsheev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC =		ft_analize_input.c		\
 
 OBJ =		$(SRC:.c=.o)
 
-HEAD =		lemin.h
+HEAD =		./
 
 NAME =		liblemin.a
 
@@ -39,7 +39,7 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 			ar -rcs $(NAME) $(OBJ)
 
-%.o:		%.c $(HEAD)
+%.o:		%.c liblemin.h
 			gcc -I $(HEAD) -Wall -Wextra -Werror -c $< -o $@
 
 clean:
