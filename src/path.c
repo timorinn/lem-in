@@ -257,27 +257,56 @@ int		check_dif(t_path *one, t_path *two)
 	return (1);
 }
 
-int		stop_search(t_path *answer, int limit)
+t_path	*mal_newlst_path(t_path *answer)
+{
+	t_path	*l;
+	int		i;
+
+	l = (t_path*)malloc(sizeof(t_path));
+	l->next = NULL;
+	l->len = answer->len;
+	l->way = (int*)malloc(sizeof(int) * answer->len);
+	i = 0;
+	while (i < l->len)
+	{
+		l->way[i] = answer->way[i];
+		i++;
+	}
+	return (l);
+}
+
+void	mal_copy_path(t_path **buf, t_path *answer)
 {
 	t_path	*tmp;
-	t_path	*buf;
-	int		z;
 
-	tmp = answer;
-	while (tmp)
+	if (!*buf)
 	{
-		buf = answer;
-		z = 0;
-		while (buf)
-		{
-			if (check_dif(tmp, buf))
-				z++;
-			buf = buf->next;
-		}
-		if (z >= limit)
-			return (z);
-		tmp = tmp->next;
+		*buf = mal_newlst_path(answer);
 	}
+	else
+	{
+		tmp = *buf;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = mal_newlst_path(answer);
+	}
+}
+
+int		stop_search(t_path **answer, int limit)
+{
+	t_path	*buf;
+
+	buf = NULL;/*
+	while (answer)
+	{
+		mal_copy_path(&buf, answer);
+		answer = answer->next;
+	}*/
+	sort_path(answer);
+	reposition_path(answer);
+	printf("len = %d\n", length_path(*answer));
+	if (length_path(*answer) >= limit)
+		return (1);
 	return (0);
 }
 
@@ -306,20 +335,24 @@ void	create_path(t_room *room, t_path **answer)
 	int		limit;
 
 	limit = ft_limit_path(room);
-	printf("limit = %d\n", limit);
 	end = get_end(room);
 	path = NULL;
 	push_tail(&path, NULL, get_start(room));
 	get_path(room, answer, path, 0, end);
 	i = 1;
 	j = 1;
-	while (!stop_search(*answer, limit) && stop_cycle(*answer, i) && limit > 1)
+	while (/*!stop_search(answer, limit) && */stop_cycle(*answer, i) && limit > 1)
 	{
+	//	printf("1\n");
+		if (i > 3 && stop_search(answer, limit))
+			break;
+		j = ft_len_path(*answer);
 		buf = *answer;
 		while (j)
 		{
 			while (get_path(room, answer, buf, i, end))
 				;
+			printf("Cicle end len = %d\n", length_path(*answer));
 			j--;
 			clean = room;
 			while (clean)
@@ -329,7 +362,8 @@ void	create_path(t_room *room, t_path **answer)
 			}
 			buf = buf->next;
 		}
-		j = ft_len_path(*answer);
+		printf("BIG CYCLE EBD\n");
+	//	j = ft_len_path(*answer);
 		i++;
 	}
 }

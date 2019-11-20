@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/20 00:14:59 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/20 16:06:53 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ typedef struct s_vertex
 void		create_path(t_room *room, t_path **answer);
 void		reposition_path(t_path **answer);
 void		steps_print(t_path *path, t_room *room);
+int			length_path(t_path *l);
+void		sort_path(t_path **answer);
+
 
 /* DOP FUNC */
 

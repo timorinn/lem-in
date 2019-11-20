@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/20 00:15:59 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/20 17:16:17 by nsheev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,37 @@ static int	ft_len_path(t_path *itog)
 	return (len);
 }
 */
+
+void	sort_path(t_path **answer)
+{
+	t_path	*tmp;
+	t_path	*buf;
+
+	if (!(*answer)->next)
+		return ;
+	if ((*answer)->len > (*answer)->next->len)
+	{
+		tmp = (*answer)->next;
+		(*answer)->next = (*answer)->next->next;
+		tmp->next = *answer;
+		*answer = tmp;
+	}
+	tmp = *answer;
+	while (tmp->next->next)
+	{
+		if (tmp->next->len > tmp->next->next->len)
+		{
+			buf = tmp->next->next;
+			tmp->next->next = buf->next;
+			buf->next = tmp->next;
+			tmp->next = buf;
+			tmp = (*answer);
+			continue;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int		main(int argc, char **argv)
 {
 	t_input		*input;
@@ -39,9 +70,11 @@ int		main(int argc, char **argv)
 	room = ft_make_rooms(input);
 //	limit = ft_limit_path(room);
 	create_path(room, &path);
-	ft_print_path(path, "RESULT\n");
+	ft_print_path(path, "CREATE\n");
+	sort_path(&path);
+//	ft_print_path(path, "SORT\n");
 	reposition_path(&path);
-	ft_print_path(path, "FINISH\n");
+	ft_print_path(path, "REPOSITION\n");
 	if (!input || !room  || !path )
 		ft_putstr("ERROR\n");
 	else
