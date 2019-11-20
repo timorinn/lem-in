@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/19 16:04:23 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/20 00:14:59 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct		s_params
 
 typedef struct		s_path
 {
+	int				conflict;
 	int				len;
 	int				num;
 	int				*way;
@@ -86,9 +87,19 @@ int			ft_get_ant(t_room *room);
 t_path		*ft_sort_paths(t_path *answer, int ant, int limit);
 int			ft_len_output(t_path *answer, int ant, int dop);
 int			ft_lstdel_path(t_path *path);
+
+//algos
+
+typedef struct s_vertex
+{
+	int				num;
+	int				op;
+	struct s_vertex	*next;
+}				t_vertex;
+
+
 void		create_path(t_room *room, t_path **answer);
-
-
+void		reposition_path(t_path **answer);
 void		steps_print(t_path *path, t_room *room);
 
 /* DOP FUNC */

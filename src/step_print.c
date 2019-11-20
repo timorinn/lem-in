@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   step_print.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:25:07 by bford             #+#    #+#             */
-/*   Updated: 2019/11/19 19:39:17 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/20 01:12:52 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 		cont = get_room(room, buf->way[num + 1]);
 		cur->ant--;
 		cont->ant++;
-
 		if (cur->start)
 		{
 			(*ant_num)++;
@@ -87,16 +86,6 @@ void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 		free(s1);
 		free(s2);
 		free(s3);
-/* ft_putchar('L');
-ft_putnbr(cont->ant_num);
-ft_putchar('-');
-ft_putstr(cont->name);
-ft_putchar(' ');*/
-
-/* ft_putnbr(cur->num);
-ft_putstr("->");
-ft_putnbr(cont->num);
-ft_putstr(" ");*/
 	}
 }
 
@@ -113,7 +102,49 @@ void set_step_ants(t_path *path, int x1, int l, int ants)
 	set_step_ants(path->next, x1, l, ants - path->step_ants);
 }
 
-void steps_print(t_path *path, t_room *room)
+t_path	*get_last_path(t_path *answer)
+{
+	while (answer->next)
+		answer = answer->next;
+	return (answer);
+}
+
+void	path_del_bad(t_path **answer)
+{
+	t_path	*buf;
+	t_path	*tmp;
+
+	if ((*answer)->step_ants <= 0)
+	{
+		buf = *answer;
+		*answer = (*answer)->next;
+		free(buf->way);
+		free(buf);
+	}
+	else
+	{
+		tmp = *answer;
+		while (tmp->next->step_ants > 0)
+			tmp = tmp->next;
+		buf = tmp->next;
+		tmp->next = tmp->next->next;
+		free(buf->way);
+		free(buf);
+	}
+}
+
+int			bad_path(t_path *path)
+{
+	while (path)
+	{
+		if (path->step_ants <= 0)
+			return (1);
+		path = path->next;
+	}
+	return (0);
+}
+
+void		steps_print(t_path *path, t_room *room)
 {
 	int x1;
 	int ants;
@@ -123,11 +154,18 @@ void steps_print(t_path *path, t_room *room)
 	t_room *buf1;
 
 	ant_num = 0;
-	ants = room->ant;
+	ants = get_room(room, path->way[0])->ant;
 	x1 = (ants + delta_len(path) + length_path(path) - 1) / length_path(path);
-	total = path->len - 1 + x1 - 1;
 	path->step_ants = x1;
 	set_step_ants(path->next, x1, path->len - 1, ants - x1);
+	while (bad_path(path))
+	{
+		path_del_bad(&path);
+		x1 = (ants + delta_len(path) + length_path(path) - 1) / length_path(path);
+		path->step_ants = x1;
+		set_step_ants(path->next, x1, path->len - 1, ants - x1);
+	}
+	total = path->len + x1 - 2;
 
 ///
 	int i = 1;

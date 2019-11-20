@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+         #
+#    By: swedde <swedde@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
-#    Updated: 2019/11/19 20:50:30 by nsheev           ###   ########.fr        #
+#    Updated: 2019/11/19 23:42:48 by swedde           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,9 @@ SRC =		ft_analize_input.c		\
 			ft_sort_paths.c			\
 			step_print.c			\
 			path.c					\
+			reposition_path.c\
 			ft_del_all.c			\
 			ft_lstdel_path.c		\
-			\
 			ft_print_path.c
 
 OBJ =		$(SRC:.c=.o)
