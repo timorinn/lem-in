@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 02:27:16 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/21 13:18:05 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/21 13:27:10 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,7 +351,7 @@ void	search_path(t_room *room, t_path **answer)
 		if (!build_new_links(*answer, room))
 		{
 			set_def_links(room);
-			ft_print_path(*answer, "CONTINE\n");
+	//		ft_print_path(*answer, "CONTINE\n");
 			continue;
 		}
 		j = length_path(*answer);
@@ -366,6 +366,6 @@ void	search_path(t_room *room, t_path **answer)
 			j--;
 		}
 		set_def_links(room);
-		ft_print_path(*answer, "ITOG\n");
+	//	ft_print_path(*answer, "ITOG\n");
 	}
 }
