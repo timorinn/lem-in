@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsheev <nsheev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/20 16:06:53 by nsheev           ###   ########.fr       */
+/*   Updated: 2019/11/21 11:51:20 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_input
 
 typedef struct		s_room
 {
+	int				suur;
 	int				bad_pos;
 	int				visit;
 	char			*name;
@@ -48,6 +49,7 @@ typedef struct		s_room
 
 typedef struct		s_link
 {
+	int				conflict;
 	struct s_room	*room;
 	struct s_link	*next;
 }					t_link;
@@ -63,6 +65,7 @@ typedef struct		s_params
 
 typedef struct		s_path
 {
+	int				status;
 	int				conflict;
 	int				len;
 	int				num;
@@ -98,15 +101,26 @@ typedef struct s_vertex
 }				t_vertex;
 
 
-void		create_path(t_room *room, t_path **answer);
 void		reposition_path(t_path **answer);
 void		steps_print(t_path *path, t_room *room);
 int			length_path(t_path *l);
 void		sort_path(t_path **answer);
+t_vertex	*get_vertex(t_vertex *vertex, int num);
+void		increase_vertex(t_vertex **vertex, int num);
+void		set_default_vertex(t_vertex *vertex);
+void		vertex_lst_del(t_vertex **vertex);
+t_room		*get_room(t_room *room, int num);
+int			get_start(t_room *room);
+int			get_end(t_room *room);
+void	search_path(t_room *room, t_path **answer);
+
+
+
 
 
 /* DOP FUNC */
 
 void		ft_print_path(t_path *path, char *s);
+void		ft_print_rooms(t_room *room);
 
 #endif

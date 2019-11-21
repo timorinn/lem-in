@@ -91,26 +91,18 @@ void	push_bottom_path(t_path **start, t_path **buf)
 	}
 }
 
-int lenfth(t_path *l)
-{
-	int i;
-
-	i = 0;
-	while (l)
-	{
-		i++;
-		l = l->next;
-	}
-	return (i);
-}
-
 t_link	*get_link(t_room *room, t_path *l)
 {
-	while (l && room->num != l->way[l->len - 1])
+	write(1, "01\n", 3);
+	while (room->num != l->way[l->len - 1])
 		room = room->next;
 	if (room->visit)
+	{
+		write(1, "01\n", 3);
 		return (NULL);
+	}
 	room->visit = 1;
+	write(1, "01\n", 3);
 	return (room->link);
 }
 
@@ -142,23 +134,6 @@ int		get_start(t_room *room)
 	return (room->num);
 }
 
-int	ft_len_path(t_path *itog)
-{
-	int		len;
-
-	len = 0;
-	while (itog && ++len)
-		itog = itog->next;
-	return (len);
-}
-
-static t_room	*get_room(t_room *room, int num)
-{
-	while (room->num != num)
-		room = room->next;
-	return (room);
-}
-
 void	ft_null_room(t_room *room)
 {
 	while (room)
@@ -186,7 +161,7 @@ t_path	*set_new_pattern(t_path **l, int i)
 	return (a);
 }
 
-int		get_path(t_room *room, t_path **answer, t_path *pattern, int i, int end)
+static int		get_path(t_room *room, t_path **answer, t_path *pattern, int i, int end)
 {
 	t_path	*path;
 	t_path  *buf;
@@ -218,7 +193,7 @@ int		get_path(t_room *room, t_path **answer, t_path *pattern, int i, int end)
 		}
 		if (!buf)
 			break;
-		buf_child = get_link(room, buf);
+		buf_child = get_link(room, buf->way[buf->len - 1]);
 		while (buf_child)
 		{
 			if (no_dublicate(buf, buf_child) && buf_child->room->bad_pos != buf->len)
@@ -235,26 +210,6 @@ int		get_path(t_room *room, t_path **answer, t_path *pattern, int i, int end)
 	}
 	ft_null_room(room);
 	return (0);
-}
-
-int		check_dif(t_path *one, t_path *two)
-{
-	int i;
-	int j;
-
-	i = 1;
-	while (i < one->len - 1)
-	{
-		j = 1;
-		while (j < two->len - 1)
-		{
-			if (one->way[i] == two->way[j])
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
 }
 
 t_path	*mal_newlst_path(t_path *answer)
@@ -292,20 +247,136 @@ void	mal_copy_path(t_path **buf, t_path *answer)
 	}
 }
 
-int		stop_search(t_path **answer, int limit)
+void		set_default_conflict(t_path *vertex)
+{
+	while (vertex)
+	{
+		vertex->conflict = 0;
+		vertex = vertex->next;
+	}
+}
+
+int		light_have_conflict(t_path *answer, t_vertex *vertex)
+{
+	int i;
+	int j;
+
+	j = 0;
+	while (answer)
+	{
+		i = 1;
+		while (i < answer->len - 1)
+		{
+			if (get_vertex(vertex, answer->way[i])->op == 0)
+				break;
+			if (i + 1 == answer->len - 1)
+			{
+				answer->conflict = 1;
+				j++;
+			}
+			i++;
+		}
+		answer = answer->next;
+	}
+	return (j);
+}
+
+void		light_delete_max_conflict(t_path **answer, int pos)
 {
 	t_path	*buf;
+	t_path	*tmp;
+	
+	while (pos > 0)
+	{
+		if ((*answer)->conflict == 1)
+		{
+			if (pos == 1)
+			{
+				buf = *answer;
+				*answer = (*answer)->next;
+				free(buf->way);
+				free(buf);
+			}
+			else
+				(*answer)->conflict--;
+		}
+		else
+		{
+			tmp = *answer;
+			while (tmp->next->conflict != 1)
+				tmp = tmp->next;
+			if (pos == 1)
+			{
+				buf = tmp->next;
+				tmp->next = tmp->next->next;
+				free(buf->way);
+				free(buf);
+			}
+			else
+				tmp->next->conflict--;
+		}
+		pos--;
+	}
+}
 
-	buf = NULL;/*
+void		light_reposition_path(t_path **answer)
+{
+	t_vertex	*vertex;
+	t_path		*buf;
+	int			i;
+	int			j;
+
+	vertex = NULL;
+	set_default_vertex(vertex);
+	buf = *answer;
+	set_default_conflict(buf);
+	while (buf)
+	{
+		i = 1;
+		while (i < buf->len - 1)
+		{
+			increase_vertex(&vertex, buf->way[i]);
+			i++;
+		}
+		buf = buf->next;
+	}
+	while (j = light_have_conflict(*answer, vertex))
+	{
+		light_delete_max_conflict(answer, j);
+		set_default_vertex(vertex);
+		buf = *answer;
+		set_default_conflict(buf);
+		while (buf)
+		{
+			i = 1;
+			while (i < buf->len - 1)
+			{
+				increase_vertex(&vertex, buf->way[i]);
+				i++;
+			}
+			buf = buf->next;
+		}
+	}
+	vertex_lst_del(&vertex);
+}
+
+int		stop_search(t_path **path, int limit)
+{
+	t_path	*buf;
+	t_path	*answer;
+
+	sort_path(path);
+	light_reposition_path(path);
+	buf = NULL;
+	answer = *path;
 	while (answer)
 	{
 		mal_copy_path(&buf, answer);
 		answer = answer->next;
-	}*/
-	sort_path(answer);
-	reposition_path(answer);
-	printf("len = %d\n", length_path(*answer));
-	if (length_path(*answer) >= limit)
+	}
+	reposition_path(&buf);
+	printf("len = %d\n", length_path(buf));
+	if (length_path(buf) >= limit)
 		return (1);
 	return (0);
 }
@@ -339,20 +410,18 @@ void	create_path(t_room *room, t_path **answer)
 	path = NULL;
 	push_tail(&path, NULL, get_start(room));
 	get_path(room, answer, path, 0, end);
-	i = 1;
-	j = 1;
-	while (/*!stop_search(answer, limit) && */stop_cycle(*answer, i) && limit > 1)
+	i = 1;\
+	while (stop_cycle(*answer, i) && limit > 1)
 	{
-	//	printf("1\n");
-		if (i > 3 && stop_search(answer, limit))
-			break;
-		j = ft_len_path(*answer);
+	//	if (stop_search(answer, limit))
+	//		break;
+		j = length_path(*answer);
 		buf = *answer;
 		while (j)
 		{
 			while (get_path(room, answer, buf, i, end))
 				;
-			printf("Cicle end len = %d\n", length_path(*answer));
+			ft_print_path(*answer, "end cycle\n");
 			j--;
 			clean = room;
 			while (clean)
@@ -362,8 +431,30 @@ void	create_path(t_room *room, t_path **answer)
 			}
 			buf = buf->next;
 		}
-		printf("BIG CYCLE EBD\n");
-	//	j = ft_len_path(*answer);
+		printf("BIG CYCLE EBD\n");\
 		i++;
 	}
 }
+
+
+/*
+int		check_dif(t_path *one, t_path *two)
+{
+	int i;
+	int j;
+
+	i = 1;
+	while (i < one->len - 1)
+	{
+		j = 1;
+		while (j < two->len - 1)
+		{
+			if (one->way[i] == two->way[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+*/
