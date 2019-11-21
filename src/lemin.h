@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/21 11:51:20 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/21 19:01:02 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void		vertex_lst_del(t_vertex **vertex);
 t_room		*get_room(t_room *room, int num);
 int			get_start(t_room *room);
 int			get_end(t_room *room);
-void	search_path(t_room *room, t_path **answer);
+void		search_path(t_room *room, t_path **answer);
+void		path_lst_del(t_path **path);
 
 
 

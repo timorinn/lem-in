@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 02:27:16 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/21 13:27:10 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/22 00:07:53 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ int		*concat_way(t_path **buf, int num)
 
 t_path	*new_lst_path(t_path **buf, int num, int status)
 {
-	t_path	*new;
+	t_path	*l;
 
-	new = (t_path *)malloc(sizeof(t_path));
-	new->way = concat_way(buf, num);
-	new->next = NULL;
-	new->len = (*buf)->len + 1;
-	new->status = status;
-	return (new);
+	l = (t_path *)malloc(sizeof(t_path));
+	l->way = concat_way(buf, num);
+	l->next = NULL;
+	l->len = (*buf)->len + 1;
+	l->status = status;
+	return (l);
 }
 
 int		push_tail(t_path **start, t_path **buf, int num, int status)
 {
 	t_path	*temp;
 
-	if (buf == NULL)
+	if (!buf)
 	{
 		*start = (t_path *)malloc(sizeof(t_path));
 		(*start)->way = (int *)malloc(sizeof(int));
@@ -54,7 +54,7 @@ int		push_tail(t_path **start, t_path **buf, int num, int status)
 		(*start)->way[0] = num;
 		(*start)->status = 0;
 	}
-	else if (*start == NULL && *buf != NULL)
+	else if (!*start && *buf)
 	{
 		*start = new_lst_path(buf, num, status);
 	}
@@ -72,22 +72,11 @@ t_path	*pop_path(t_path **start)
 {
 	t_path	*l;
 
-	if (*start == NULL)
+	if (!*start)
 		return (NULL);
 	l = *start;
 	*start = (*start)->next;
 	return (l);
-}
-
-int		ended_path(t_path **l, int end)
-{
-	if (*l)
-	{
-		if ((*l)->way[(*l)->len - 1] == end)
-			return (1);
-		return (0);
-	}
-	return (0);
 }
 
 void	push_bottom_path(t_path **start, t_path **buf)
@@ -95,7 +84,7 @@ void	push_bottom_path(t_path **start, t_path **buf)
 	t_path *l;
 
 	l = *start;
-	if (*start == NULL)
+	if (!*start)
 		*start = *buf;
 	else
 	{
@@ -130,19 +119,19 @@ t_link	*get_link(t_room *room, t_path *l)
 
 int		get_end(t_room *room)
 {
-	while (room->end == 0)
+	while (!room->end)
 		room = room->next;
 	return (room->num);
 }
 
-int		no_dublicate(t_path *buf, t_link *buf_child)
+int		no_dublicate(t_path *buf, int num)
 {
 	int		i;
 
 	i = 0;
-	while (i < buf->len)
+	while (i < buf->len - 1)
 	{
-		if (buf_child->room->num == buf->way[i])
+		if (num == buf->way[i])
 			return (0);
 		i++;
 	}
@@ -151,7 +140,7 @@ int		no_dublicate(t_path *buf, t_link *buf_child)
 
 int		get_start(t_room *room)
 {
-	while (room->start == 0)
+	while (!room->start)
 		room = room->next;
 	return (room->num);
 }
@@ -165,6 +154,19 @@ void	ft_null_room(t_room *room)
 	}
 }
 
+void		path_lst_del(t_path **path)
+{
+	t_path	*buf;
+
+	while (*path)
+	{
+		buf = *path;
+		*path = (*path)->next;
+		free(buf->way);
+		free(buf);
+	}
+}
+
 int		get_path(t_room *room, t_path **answer, int end)
 {
 	t_path	*path;
@@ -175,21 +177,19 @@ int		get_path(t_room *room, t_path **answer, int end)
 	push_tail(&path, NULL, get_start(room), 0);
 	while (path)
 	{
-	//	ft_print_path(path, "PATH\n");
 		buf = pop_path(&path);
-		if (buf && ended_path(&buf, end))
+		if (buf->way[buf->len - 1] == end)
 		{
 			buf->next = NULL;
 			push_bottom_path(answer, &buf);
 			ft_null_room(room);
+			path_lst_del(&path);
 			return (1);
 		}
-		if (!buf)
-			break;
 		buf_child = get_link(room, buf);
 		while (buf_child)
 		{
-			if (no_dublicate(buf, buf_child) && buf_child->conflict)
+			if (buf_child->conflict && no_dublicate(buf, buf_child->room->num))
 			{
 			//	printf("buf->st = %d sur = %d\n", buf->status, buf_child->room->suur);
 				if (buf->status == 0 && buf_child->room->suur == 0)
@@ -205,13 +205,11 @@ int		get_path(t_room *room, t_path **answer, int end)
 			}
 			buf_child = buf_child->next;
 		}
-		if (buf)
-		{
-			free(buf->way);
-			free(buf);
-		}
+		free(buf->way);
+		free(buf);
 	}
 	ft_null_room(room);
+	path_lst_del(&path);
 	return (0);
 }
 
@@ -253,7 +251,7 @@ void	set_def_links(t_room *room)
 	}
 }
 
-void	set_vertex_sur(t_room *room, t_path *tmp)
+void	set_room_sur(t_room *room, t_path *tmp)
 {
 	int		i;
 
@@ -298,7 +296,7 @@ int			build_new_links(t_path *answer, t_room *room)
 			if (get_vertex(vertex, answer->way[i])->op > 0 && get_vertex(vertex, answer->way[i + 1])->op > 0)
 			{
 				tmp = get_room(room, answer->way[i])->link;
-				while (tmp->room->num != answer->way[i + 1])
+				while (tmp && tmp->room->num != answer->way[i + 1])
 					tmp = tmp->next;
 				if (tmp)
 				{
@@ -337,27 +335,22 @@ void	search_path(t_room *room, t_path **answer)
 	int		j;
 
 	end = get_end(room);
-
-	set_def_links(room);
 	get_path(room, answer, end);
 	while (length_path(*answer) < ft_limit_path(room))
 	{
 		tmp = *answer;
 		delete_links(room, tmp, 0);
-		set_vertex_sur(room, tmp);
+		set_room_sur(room, tmp);
 		if (!get_path(room, answer, end))
 			break;
 		set_def_links(room);
 		if (!build_new_links(*answer, room))
 		{
 			set_def_links(room);
-	//		ft_print_path(*answer, "CONTINE\n");
 			continue;
 		}
 		j = length_path(*answer);
-
-		*answer = NULL;
-
+		path_lst_del(answer);
 		while (j)
 		{
 			if (!get_path(room, answer, end))
@@ -366,6 +359,5 @@ void	search_path(t_room *room, t_path **answer)
 			j--;
 		}
 		set_def_links(room);
-	//	ft_print_path(*answer, "ITOG\n");
 	}
 }

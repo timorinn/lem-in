@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 23:08:29 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/20 23:49:56 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/22 00:14:13 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void		delete_max_conflict(t_path **answer)
 	}
 	if (max == 0)
 		return ;
+	ft_putstr("DELETIIIIING\n");
 	del_conflict_path(answer, max, pos);
 }
 

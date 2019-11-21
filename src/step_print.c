@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:25:07 by bford             #+#    #+#             */
-/*   Updated: 2019/11/20 01:12:52 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/22 00:04:06 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ t_room	*get_room(t_room *room, int num)
 
 void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 {
-	t_room *cur;
-	t_room *cont;
-	char *s;
-	char *s1;
-	char *s2;
-	char *s3;
+	t_room	*cur;
+	t_room	*cont;
+	char	*s;
+	char	*s1;
+	char	*s2;
+	char	*s3;
+	char	*s4;
 
 	cur = get_room(room, buf->way[num]);
 	if (cur->end)
@@ -77,7 +78,8 @@ void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 		}
 		else
 			cont->ant_num = cur->ant_num;
-		s1 = ft_strjoin("L", ft_itoa(cont->ant_num));
+		s4 = ft_itoa(cont->ant_num);
+		s1 = ft_strjoin("L", s4);
 		s2 = ft_strjoin(cont->name, " ");
 		s3 = ft_strjoin("-", s2);
 		s = ft_strjoin(s1, s3);
@@ -86,6 +88,7 @@ void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 		free(s1);
 		free(s2);
 		free(s3);
+		free(s4);
 	}
 }
 
@@ -151,7 +154,7 @@ void		steps_print(t_path *path, t_room *room)
 	int total;
 	t_path *buf;
 	int ant_num;
-	t_room *buf1;
+//	t_room *buf1;
 
 	ant_num = 0;
 	ants = get_room(room, path->way[0])->ant;
@@ -167,7 +170,7 @@ void		steps_print(t_path *path, t_room *room)
 	}
 	total = path->len + x1 - 2;
 
-///
+/*
 	int i = 1;
 	buf = path;
 	while (buf)
@@ -177,7 +180,7 @@ void		steps_print(t_path *path, t_room *room)
 		i++;
 	}
 	printf("total = %d\n", total);
-///
+*/
 
 	while (total)
 	{
@@ -192,9 +195,9 @@ void		steps_print(t_path *path, t_room *room)
 		total--;
 	}
 
-	////
+	/*
 	buf1 = room;
 	while (buf1->end == 0)
 		buf1 = buf1->next;
-	printf("END ANTS = %d\n", buf1->ant);
+	printf("END ANTS = %d\n", buf1->ant);*/
 }
