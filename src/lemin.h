@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/21 19:01:02 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 21:12:19 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct		s_path
 	int				conflict;
 	int				len;
 	int				num;
-	int				*way;
+	t_room			**way;
 	int				step_ants;
 	struct s_path	*next;
 }					t_path;

@@ -435,26 +435,3 @@ void	create_path(t_room *room, t_path **answer)
 		i++;
 	}
 }
-
-
-/*
-int		check_dif(t_path *one, t_path *two)
-{
-	int i;
-	int j;
-
-	i = 1;
-	while (i < one->len - 1)
-	{
-		j = 1;
-		while (j < two->len - 1)
-		{
-			if (one->way[i] == two->way[j])
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-*/

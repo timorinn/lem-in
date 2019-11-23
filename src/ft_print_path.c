@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bford <bford@student.42.fr>                +#+  +:+       +#+        */
+/*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 13:10:48 by bford             #+#    #+#             */
-/*   Updated: 2019/11/14 14:43:01 by bford            ###   ########.fr       */
+/*   Updated: 2019/11/23 21:34:17 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		ft_print_path(t_path *path, char *s)
 		{
 			while (j < copy->len)
 			{
-				ft_putnbr(copy->way[j]);
+				ft_putnbr(copy->way[j]->num);
 				ft_putstr(" ");
 				j++;
 			}

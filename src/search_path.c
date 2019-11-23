@@ -6,18 +6,18 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 02:27:16 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/22 00:07:53 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 21:52:42 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int		*concat_way(t_path **buf, int num)
+t_room	**concat_way(t_path **buf, t_room *num)
 {
-	int		*array;
+	t_room	**array;
 	int		i;
 
-	if (!(array = (int *)malloc(sizeof(int) * (*buf)->len + 1)))
+	if (!(array = (t_room**)malloc(sizeof(t_room*) * (*buf)->len + 1)))
 		return (NULL);
 	i = 0;
 	while (i < (*buf)->len)
@@ -29,7 +29,7 @@ int		*concat_way(t_path **buf, int num)
 	return (array);
 }
 
-t_path	*new_lst_path(t_path **buf, int num, int status)
+t_path	*new_lst_path(t_path **buf, t_room *num, int status)
 {
 	t_path	*l;
 
@@ -41,14 +41,14 @@ t_path	*new_lst_path(t_path **buf, int num, int status)
 	return (l);
 }
 
-int		push_tail(t_path **start, t_path **buf, int num, int status)
+int		push_tail(t_path **start, t_path **buf, t_room *num, int status)
 {
 	t_path	*temp;
 
 	if (!buf)
 	{
 		*start = (t_path *)malloc(sizeof(t_path));
-		(*start)->way = (int *)malloc(sizeof(int));
+		(*start)->way = (t_room**)malloc(sizeof(t_room*));
 		(*start)->next = NULL;
 		(*start)->len = 1;
 		(*start)->way[0] = num;
@@ -76,6 +76,7 @@ t_path	*pop_path(t_path **start)
 		return (NULL);
 	l = *start;
 	*start = (*start)->next;
+	l->next = NULL;
 	return (l);
 }
 
@@ -94,27 +95,12 @@ void	push_bottom_path(t_path **start, t_path **buf)
 	}
 }
 
-int lenfth(t_path *l)
-{
-	int i;
-
-	i = 0;
-	while (l)
-	{
-		i++;
-		l = l->next;
-	}
-	return (i);
-}
-
 t_link	*get_link(t_room *room, t_path *l)
 {
-	while (l && room->num != l->way[l->len - 1])
-		room = room->next;
-	if (room->visit)
+	if (l->way[l->len - 1]->visit)
 		return (NULL);
-	room->visit = 1;
-	return (room->link);
+	l->way[l->len - 1]->visit = 1;
+	return (l->way[l->len - 1]->link);
 }
 
 int		get_end(t_room *room)
@@ -131,7 +117,7 @@ int		no_dublicate(t_path *buf, int num)
 	i = 0;
 	while (i < buf->len - 1)
 	{
-		if (num == buf->way[i])
+		if (num == buf->way[i]->num)
 			return (0);
 		i++;
 	}
@@ -167,20 +153,19 @@ void		path_lst_del(t_path **path)
 	}
 }
 
-int		get_path(t_room *room, t_path **answer, int end)
+int		get_path(t_room *room, t_path **answer)
 {
 	t_path	*path;
 	t_path  *buf;
 	t_link  *buf_child;
 
 	path = NULL;
-	push_tail(&path, NULL, get_start(room), 0);
+	push_tail(&path, NULL, get_room(room, get_start(room)), 0);
 	while (path)
 	{
 		buf = pop_path(&path);
-		if (buf->way[buf->len - 1] == end)
+		if (buf->way[buf->len - 1]->end)
 		{
-			buf->next = NULL;
 			push_bottom_path(answer, &buf);
 			ft_null_room(room);
 			path_lst_del(&path);
@@ -191,17 +176,16 @@ int		get_path(t_room *room, t_path **answer, int end)
 		{
 			if (buf_child->conflict && no_dublicate(buf, buf_child->room->num))
 			{
-			//	printf("buf->st = %d sur = %d\n", buf->status, buf_child->room->suur);
 				if (buf->status == 0 && buf_child->room->suur == 0)
-					push_tail(&path, &buf, buf_child->room->num, 0);
+					push_tail(&path, &buf, buf_child->room, 0);
 				else if (buf->status == 0 && buf_child->room->suur == 1)
-					push_tail(&path, &buf, buf_child->room->num, 1);
+					push_tail(&path, &buf, buf_child->room, 1);
 				else if (buf->status == 1 && buf_child->room->suur == 1)
-					push_tail(&path, &buf, buf_child->room->num, 2);
+					push_tail(&path, &buf, buf_child->room, 2);
 				else if (buf->status == 2 && buf_child->room->suur == 1)
-					push_tail(&path, &buf, buf_child->room->num, 2);
+					push_tail(&path, &buf, buf_child->room, 2);
 				else if (buf->status == 2 && buf_child->room->suur == 0)
-					push_tail(&path, &buf, buf_child->room->num, 0);
+					push_tail(&path, &buf, buf_child->room, 0);
 			}
 			buf_child = buf_child->next;
 		}
@@ -223,8 +207,8 @@ void	delete_links(t_room *room, t_path *tmp, int a)
 		i = 0;
 		while (i < tmp->len - 1)
 		{
-			buf = get_room(room, tmp->way[i])->link;
-			while (buf->room->num != tmp->way[i + 1])
+			buf = tmp->way[i]->link;
+			while (buf->room->num != tmp->way[i + 1]->num)
 				buf = buf->next;
 			buf->conflict = a;
 			i++;
@@ -260,7 +244,7 @@ void	set_room_sur(t_room *room, t_path *tmp)
 		i = 0;
 		while (i < tmp->len)
 		{
-			get_room(room, tmp->way[i])->suur = 1;
+			tmp->way[i]->suur = 1;
 			i++;
 		}
 		tmp = tmp->next;
@@ -283,7 +267,7 @@ int			build_new_links(t_path *answer, t_room *room)
 		i = 1;
 		while (i < buf->len - 1)
 		{
-			increase_vertex(&vertex, buf->way[i]);
+			increase_vertex(&vertex, buf->way[i]->num);
 			i++;
 		}
 		buf = buf->next;
@@ -293,10 +277,11 @@ int			build_new_links(t_path *answer, t_room *room)
 		i = 1;
 		while (i < answer->len - 2)
 		{
-			if (get_vertex(vertex, answer->way[i])->op > 0 && get_vertex(vertex, answer->way[i + 1])->op > 0)
+			if (get_vertex(vertex, answer->way[i]->num)->op > 0 &&
+				get_vertex(vertex, answer->way[i + 1]->num)->op > 0)
 			{
-				tmp = get_room(room, answer->way[i])->link;
-				while (tmp && tmp->room->num != answer->way[i + 1])
+				tmp = answer->way[i]->link;
+				while (tmp && tmp->room->num != answer->way[i + 1]->num)
 					tmp = tmp->next;
 				if (tmp)
 				{
@@ -321,7 +306,7 @@ void	set_visit_path(t_room *room, t_path *answer)
 		i = 1;
 		while (i < answer->len - 1)
 		{
-			get_room(room, answer->way[i])->visit = 1;
+			answer->way[i]->visit = 1;
 			i++;
 		}
 		answer = answer->next;
@@ -330,18 +315,16 @@ void	set_visit_path(t_room *room, t_path *answer)
 
 void	search_path(t_room *room, t_path **answer)
 {
-	int		end;
 	t_path	*tmp;
 	int		j;
 
-	end = get_end(room);
-	get_path(room, answer, end);
+	get_path(room, answer);
 	while (length_path(*answer) < ft_limit_path(room))
 	{
 		tmp = *answer;
 		delete_links(room, tmp, 0);
 		set_room_sur(room, tmp);
-		if (!get_path(room, answer, end))
+		if (!get_path(room, answer))
 			break;
 		set_def_links(room);
 		if (!build_new_links(*answer, room))
@@ -353,7 +336,7 @@ void	search_path(t_room *room, t_path **answer)
 		path_lst_del(answer);
 		while (j)
 		{
-			if (!get_path(room, answer, end))
+			if (!get_path(room, answer))
 				return ;
 			set_visit_path(room, *answer);
 			j--;
