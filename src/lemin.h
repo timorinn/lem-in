@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:54:19 by bford             #+#    #+#             */
-/*   Updated: 2019/11/23 21:12:19 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 23:54:37 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void		ft_del_dead_end(t_room **room);
 
 int			ft_limit_path(t_room *room);
 int			ft_get_ant(t_room *room);
-t_path		*ft_sort_paths(t_path *answer, int ant, int limit);
 int			ft_len_output(t_path *answer, int ant, int dop);
 int			ft_lstdel_path(t_path *path);
 
@@ -114,14 +113,13 @@ int			get_start(t_room *room);
 int			get_end(t_room *room);
 void		search_path(t_room *room, t_path **answer);
 void		path_lst_del(t_path **path);
-
-
-
-
+int			delta_len(t_path *a);
+void		path_del_bad(t_path **answer);
+int			bad_path(t_path *path);
+void 		set_step_ants(t_path *path, int x1, int l, int ants);
 
 /* DOP FUNC */
 
 void		ft_print_path(t_path *path, char *s);
-void		ft_print_rooms(t_room *room);
 
 #endif

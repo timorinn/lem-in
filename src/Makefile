@@ -6,7 +6,7 @@
 #    By: swedde <swedde@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 17:55:08 by bford             #+#    #+#              #
-#    Updated: 2019/11/21 03:25:40 by swedde           ###   ########.fr        #
+#    Updated: 2019/11/23 22:09:36 by swedde           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC =		ft_analize_input.c		\
 			ft_limit_path.c			\
 			ft_len_output.c			\
 			ft_get_ant.c			\
-			ft_sort_paths.c			\
 			step_print.c			\
 			reposition_path.c		\
 			search_path.c			\

@@ -6,14 +6,11 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/23 21:42:01 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 23:54:24 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-
-void		ft_print_input(t_input *input);
-void		ft_print_rooms(t_room *room);
 
 void	sort_path(t_path **answer)
 {
@@ -68,49 +65,4 @@ int		main(int argc, char **argv)
 		steps_print(path, room);
 	path_lst_del(&path);
 	return (ft_del_all(input, room) + ft_lstdel_path(path));
-}
-
-
-
-
-/***********************************/
-/*		FUNCTIONS FOR CHECK		   */
-/***********************************/
-
-void		ft_print_input(t_input *input)
-{
-	t_input		*copy;
-
-	copy = input;
-	ft_putstr("\n******** PRINT INPUT ********\n");
-	while (copy)
-	{
-		ft_putendl(copy->s);
-		copy = copy->next;
-	}
-}
-
-void		ft_print_rooms(t_room *room)
-{
-	t_room	*copy;
-	t_link	*link;
-	int		i;
-
-	copy = room;
-	ft_putstr("\n******** PRINT ROOMS ********\n");
-	while (copy)
-	{
-		i = 0;
-
-		printf("Room_%8s | num = %2d | ants = %4d | start = %3d | end = %3d | num_links = %2d | ",
-		copy->name, copy->num, copy->ant, copy->start, copy->end, copy->num_links);
-		link = copy->link;
-		while (link)
-		{
-			printf("link_%2d = %2s | ", i++, link->room->name);
-			link = link->next;
-		}
-		printf("\n");
-		copy = copy->next;
-	}
 }

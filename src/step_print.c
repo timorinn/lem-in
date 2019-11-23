@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:25:07 by bford             #+#    #+#             */
-/*   Updated: 2019/11/23 21:41:25 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 22:31:37 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void		steps_print(t_path *path, t_room *room)
 			buf->step_ants--;
 			buf = buf->next;
 		}
-		ft_putstr("\n");
+		write(1, "\n", 1);
 		total--;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 02:27:16 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/23 21:52:42 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/23 23:28:20 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,34 +313,125 @@ void	set_visit_path(t_room *room, t_path *answer)
 	}
 }
 
+t_path	*re_path_lstnew(t_path *answer)
+{
+	t_path	*new;
+	int		i;
+	new = (t_path*)malloc(sizeof(t_path));
+	new->len = answer->len;
+	new->way = (t_room**)malloc(sizeof(t_room*) * new->len);
+	i = 0;
+	while (i < new->len)
+	{
+		new->way[i] = answer->way[i];
+		i++;
+	}
+	new->next = NULL;
+	return (new);
+}
+
+void	re_push_tail(t_path **new, t_path *answer)
+{
+	t_path	*tmp;
+	if (!*new)
+	{
+		*new = re_path_lstnew(answer);
+	}
+	else
+	{
+		tmp = *new;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = re_path_lstnew(answer);
+	}
+}
+
+t_path	*re_malloc_path(t_path *answer)
+{
+	t_path *new;
+	new = NULL;
+	while (answer)
+	{
+		re_push_tail(&new, answer);
+		answer = answer->next;
+	}
+	return (new);
+}
+
+int		get_total(t_path *path)
+{
+	t_path *buf;
+	int		x1;
+	int		total;
+	int		ants;
+
+	buf = NULL;
+	ants = path->way[0]->ant;
+	buf = re_malloc_path(path);
+	x1 = (ants + delta_len(buf) + length_path(buf) - 1) / length_path(buf);
+	buf->step_ants = x1;
+	set_step_ants(buf->next, x1, buf->len - 1, ants - x1);
+	while (bad_path(buf))
+	{
+		path_del_bad(&buf);
+		x1 = (ants + delta_len(buf) + length_path(buf) - 1) / length_path(buf);
+		buf->step_ants = x1;
+		set_step_ants(buf->next, x1, buf->len - 1, ants - x1);
+	}
+	total = buf->len + x1 - 2;
+	path_lst_del(&buf);
+	return (total);
+}
+
 void	search_path(t_room *room, t_path **answer)
 {
 	t_path	*tmp;
 	int		j;
+	int		total_prev;
+	int		total_cur;
 
 	get_path(room, answer);
-	while (length_path(*answer) < ft_limit_path(room))
+	while (1)
 	{
-		tmp = *answer;
+		total_prev = get_total(*answer);
+		tmp = re_malloc_path(*answer);
 		delete_links(room, tmp, 0);
 		set_room_sur(room, tmp);
-		if (!get_path(room, answer))
-			break;
-		set_def_links(room);
-		if (!build_new_links(*answer, room))
+		if (!get_path(room, &tmp))
 		{
+			path_lst_del(&tmp);
+			break;
+		}
+		set_def_links(room);
+		if (!build_new_links(tmp, room))
+		{
+			path_lst_del(answer);
+			*answer = tmp;
 			set_def_links(room);
 			continue;
 		}
-		j = length_path(*answer);
-		path_lst_del(answer);
+		j = length_path(tmp);
+		path_lst_del(&tmp);
+		tmp = NULL;
 		while (j)
 		{
-			if (!get_path(room, answer))
+			if (!get_path(room, &tmp))
+			{
+				total_cur = get_total(tmp);
+				if (total_prev < total_cur)
+					path_lst_del(&tmp);
+				else
+				{
+					path_lst_del(answer);
+					*answer = tmp;
+				}
 				return ;
-			set_visit_path(room, *answer);
+			}
+			set_visit_path(room, tmp);
 			j--;
 		}
+		path_lst_del(answer);
+		*answer = tmp;
 		set_def_links(room);
 	}
 }
