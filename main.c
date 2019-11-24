@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:17:03 by bford             #+#    #+#             */
-/*   Updated: 2019/11/23 23:54:24 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/25 01:23:38 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,25 @@ int		main(int argc, char **argv)
 	t_room		*room;
 	t_path		*path;
 
-	path = NULL;
 	input = ft_analize_input(argc, argv);
 	room = ft_make_rooms(input);
-
+	if (!input || !room)
+	{
+		ft_putstr("ERROR\n");
+		ft_del_all(input, room);
+		return (0);
+	}
+	path = NULL;
 	search_path(room, &path);
 //	ft_print_path(path, "CREATE\n");
 //	sort_path(&path);
 //	ft_print_path(path, "SORT\n");
 //	reposition_path(&path);
 //	ft_print_path(path, "REPOSITION\n");
-	
-	if (!input || !room  || !path )
-		ft_putstr("ERROR\n");
-	else
+	if (path)
+	{
 		steps_print(path, room);
-	path_lst_del(&path);
-	return (ft_del_all(input, room) + ft_lstdel_path(path));
+		path_lst_del(&path);
+	}
+	return (0);
 }

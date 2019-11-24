@@ -6,13 +6,13 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:25:07 by bford             #+#    #+#             */
-/*   Updated: 2019/11/24 00:17:05 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/25 00:48:29 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int		length_path(t_path *l)
+int			length_path(t_path *l)
 {
 	int i;
 
@@ -25,7 +25,7 @@ int		length_path(t_path *l)
 	return (i);
 }
 
-int		delta_len(t_path *a)
+int			delta_len(t_path *a)
 {
 	int l1;
 	int l2;
@@ -43,14 +43,14 @@ int		delta_len(t_path *a)
 	return (l);
 }
 
-t_room	*get_room(t_room *room, int num)
+t_room		*get_room(t_room *room, int num)
 {
 	while (room->num != num)
 		room = room->next;
 	return (room);
 }
 
-void	step_display(t_room *cont)
+void		step_display(t_room *cont)
 {
 	char	*s;
 	char	*s1;
@@ -71,7 +71,7 @@ void	step_display(t_room *cont)
 	free(s4);
 }
 
-void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
+void		step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 {
 	t_room	*cur;
 	t_room	*cont;
@@ -98,7 +98,7 @@ void step_do_one(t_path *buf, t_room *room, int num, int *ant_num)
 	}
 }
 
-void set_step_ants(t_path *path, int x1, int l, int ants)
+void		set_step_ants(t_path *path, int x1, int l, int ants)
 {
 	if (path == NULL)
 		return ;
@@ -118,7 +118,7 @@ t_path	*get_last_path(t_path *answer)
 	return (answer);
 }
 
-void	path_del_bad(t_path **answer)
+void		path_del_bad(t_path **answer)
 {
 	t_path	*buf;
 	t_path	*tmp;

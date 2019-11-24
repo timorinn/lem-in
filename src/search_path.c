@@ -6,7 +6,7 @@
 /*   By: swedde <swedde@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 02:27:16 by swedde            #+#    #+#             */
-/*   Updated: 2019/11/23 23:28:20 by swedde           ###   ########.fr       */
+/*   Updated: 2019/11/25 01:09:31 by swedde           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		get_start(t_room *room)
 	return (room->num);
 }
 
-void	ft_null_room(t_room *room)
+void	set_def_visit(t_room *room)
 {
 	while (room)
 	{
@@ -151,6 +151,7 @@ void		path_lst_del(t_path **path)
 		free(buf->way);
 		free(buf);
 	}
+	*path = NULL;
 }
 
 int		get_path(t_room *room, t_path **answer)
@@ -167,7 +168,7 @@ int		get_path(t_room *room, t_path **answer)
 		if (buf->way[buf->len - 1]->end)
 		{
 			push_bottom_path(answer, &buf);
-			ft_null_room(room);
+			set_def_visit(room);
 			path_lst_del(&path);
 			return (1);
 		}
@@ -192,7 +193,7 @@ int		get_path(t_room *room, t_path **answer)
 		free(buf->way);
 		free(buf);
 	}
-	ft_null_room(room);
+	set_def_visit(room);
 	path_lst_del(&path);
 	return (0);
 }
@@ -217,7 +218,7 @@ void	delete_links(t_room *room, t_path *tmp, int a)
 	}
 }
 
-void	set_def_links(t_room *room)
+void	set_def_links_and_suur(t_room *room)
 {
 	t_link *link;
 
@@ -400,19 +401,18 @@ void	search_path(t_room *room, t_path **answer)
 		if (!get_path(room, &tmp))
 		{
 			path_lst_del(&tmp);
-			break;
+			return ;
 		}
-		set_def_links(room);
+		set_def_links_and_suur(room);
 		if (!build_new_links(tmp, room))
 		{
 			path_lst_del(answer);
 			*answer = tmp;
-			set_def_links(room);
+			set_def_links_and_suur(room);
 			continue;
 		}
 		j = length_path(tmp);
 		path_lst_del(&tmp);
-		tmp = NULL;
 		while (j)
 		{
 			if (!get_path(room, &tmp))
@@ -430,8 +430,18 @@ void	search_path(t_room *room, t_path **answer)
 			set_visit_path(room, tmp);
 			j--;
 		}
-		path_lst_del(answer);
-		*answer = tmp;
-		set_def_links(room);
+
+		total_cur = get_total(tmp);
+		if (total_prev < total_cur)
+		{
+			path_lst_del(&tmp);
+			return ;
+		}
+		else
+		{
+			path_lst_del(answer);
+			*answer = tmp;
+			set_def_links_and_suur(room);
+		}
 	}
 }
